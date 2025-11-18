@@ -1,0 +1,25 @@
+.react-tel-input {
+  width: 100% !important;
+}
+
+.react-tel-input .form-control {
+  position: relative;
+  width: 100%;
+  display: block;
+  height: 60px;
+  line-height: 30px;
+  padding: 15px 20px 15px 60px; /* 👈 add left padding for flag */
+  font-size: 15px;
+  color: #696969;
+  background-color: #f0f5f7;
+  border: 1px solid #f0f5f7;
+  box-sizing: border-box;
+  border-radius: 8px;
+  transition: all 300ms ease;
+}
+
+.react-tel-input .flag-dropdown {
+  border: none;
+  background: transparent;
+  left: 10px; /* 👈 keep some spacing from the edge */
+}

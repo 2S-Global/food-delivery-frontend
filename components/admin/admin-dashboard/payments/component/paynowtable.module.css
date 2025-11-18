@@ -1,0 +1,14 @@
+/* paynowtable.module.css */
+
+.searchContainer {
+    overflow: hidden;
+    transition: max-height 1.5s ease, opacity 1.5s ease;
+    max-height: 0;
+    opacity: 0;
+  }
+  
+  .searchContainerOpen {
+    max-height: 300px; /* Increase this if your content is taller */
+    opacity: 1;
+  }
+  

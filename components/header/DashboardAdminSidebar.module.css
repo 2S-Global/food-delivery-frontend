@@ -1,0 +1,16 @@
+.adminTitle {
+  text-align: center;
+  font-weight: 800;
+  font-size: 20px;
+  margin-top: 20px;
+  background-color: #FF0000;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+@media (min-width: 1600px) {
+  .adminTitle {
+    margin-top: 40px;
+  }
+}

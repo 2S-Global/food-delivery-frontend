@@ -1,0 +1,269 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import "~bootstrap/scss/bootstrap";
+@import "public/scss/main.scss";
+
+.stepper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.step {
+  position: relative;
+  flex: 1;
+  background: #8c82fc;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
+  transition: 0.3s;
+}
+
+/* 2nd, 3rd, and 4th steps - Add left arrow */
+.step:nth-child(n + 2) {
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%);
+}
+
+/* Last step remains the same */
+.step:last-child {
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%);
+}
+
+.step.active {
+  background: #5dd5c4;
+}
+
+.step-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.user-sidebar {
+  position: absolute;
+}
+
+.step-icon {
+  width: 35px;
+  height: 35px;
+  background: white;
+  color: #5dd5c4;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.step.active .step-icon {
+  background: white;
+  color: #5dd5c4;
+}
+
+.step-label {
+  color: white;
+}
+
+.step:not(.active) {
+  opacity: 0.6;
+}
+
+::placeholder {
+  color: #c7c5c5 !important;
+  font-size: 15px !important;
+}
+
+.user-sidebar .navigation li a {
+  padding: 10px 25px;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.resume-container {
+  padding: 20px;
+  border-radius: 8px;
+  background: #f9f9f9;
+  text-align: left;
+}
+
+.resume-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.resume-details {
+  margin-top: 10px;
+}
+
+.resume-file {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.upload-date {
+  color: gray;
+  font-size: 14px;
+}
+
+.resume-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.resume-actions a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.upload-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.upload-container {
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.upload-input {
+  display: none;
+}
+
+.upload-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.ls-widget .widget-title {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background: transparent;
+  padding: 20px 30px 0px;
+  min-height: 60px;
+}
+img.rounded-circle {
+  object-fit: cover;
+  width: 90px;
+  height: 90px;
+}
+.candidate-image {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.react-select-container .react-select__control {
+  min-height: 38px; /* Match Bootstrap height */
+  height: 38px;
+  border-radius: 4px;
+  border-color: #ced4da;
+  box-shadow: none;
+}
+
+.react-select-container .react-select__value-container {
+  padding: 0 8px;
+  display: flex;
+  align-items: center; /* Match Bootstrap text vertical alignment */
+}
+
+.react-select-container .react-select__single-value,
+.react-select-container .react-select__placeholder {
+  line-height: 1.5; /* Same as Bootstrap input */
+  font-size: 0.95rem;
+  padding-top: 0; /* Remove extra top space */
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15); /* transparent white */
+  backdrop-filter: blur(12px); /* blur background */
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* subtle border */
+  border-radius: 1rem; /* smooth rounded edges */
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+  color: white;
+  max-width: 420px;
+}
+
+.theme-btn:disabled {
+  background-color: #ccc !important; /* gray background */
+  color: #666 !important; /* dull text */
+  cursor: not-allowed; /* show blocked cursor */
+  opacity: 0.7; /* faded look */
+  box-shadow: none; /* remove button shadow */
+}
+
+.highlight {
+  background-color: yellow;
+  transition: background-color 0.5s ease;
+}
+.special-route .ls-widget {
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: none;
+  margin-bottom: 30px;
+}
+.special-route .ls-widget .widget-title {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background: transparent;
+  padding: 20px 0px 0px;
+  min-height: 60px;
+}
+.special-route .ls-widget .widget-content {
+  position: relative;
+  padding: 0px 0px 10px;
+}
+
+.truncate-text {
+  display: inline-block;
+  max-width: 180px; /* adjust based on your layout */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
