@@ -41,7 +41,7 @@ const Index = () => {
               <div className="col-lg-12">
                 <div className="applicants-widget ls-widget">
                   <div className="widget-title">
-                    <h4>Package List</h4>
+                    <h4>Customer List</h4>
 
                     <span
                       onClick={openModalRH}
@@ -53,7 +53,7 @@ const Index = () => {
                         fontSize: "16px",
                       }}
                     >
-                      Add Package
+                      Add Customer
                     </span>
                   </div>
                   <Companytable />

@@ -33,7 +33,7 @@ module.exports = [
     id: 5,
     name: "Manage Customer",
     icon: "la-boxes",
-    routePath: "/admin/listpackage",
+    routePath: "/admin/manage-customer",
     active: "",
   },
 

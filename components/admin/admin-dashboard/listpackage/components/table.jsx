@@ -153,12 +153,12 @@ const Companytable = () => {
                 <thead className="table-light">
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
-                    <th style={{ textAlign: "center" }}>Package Name</th>
-                    <th style={{ textAlign: "center" }}>
-                      Verification Allowed
-                    </th>
-                    <th style={{ textAlign: "center" }}>Price</th>
-                    <th style={{ textAlign: "center" }}>Company Status</th>
+                    <th style={{ textAlign: "center" }}>Name</th>
+                    <th style={{ textAlign: "center" }}>Email</th>
+                    <th style={{ textAlign: "center" }}>Phone Number</th>
+                    <th style={{ textAlign: "center" }}>Address</th>
+                    <th style={{ textAlign: "center" }}>Created Date</th>
+                    <th style={{ textAlign: "center" }}>Status</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
