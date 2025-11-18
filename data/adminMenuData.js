@@ -8,7 +8,7 @@ module.exports = [
   },
   {
     id: 2,
-    name: "List Product",
+    name: "Manage Menu",
     icon: "la-building",
     routePath: "/admin/listcompany",
     active: "",
@@ -16,7 +16,7 @@ module.exports = [
 
   {
     id: 3,
-    name: "List Category",
+    name: "List Order",
     icon: "la-file-alt",
     routePath: "/admin/listinstitute",
     active: "",
@@ -24,18 +24,18 @@ module.exports = [
 
   {
     id: 4,
-    name: "List Order",
+    name: "Manage Delivery Boy",
     icon: "la-id-badge",
     routePath: "/admin/listcandidate",
     active: "",
   },
-  /*  {
+  {
     id: 5,
-    name: "List Packages",
+    name: "Manage Customer",
     icon: "la-boxes",
     routePath: "/admin/listpackage",
     active: "",
-  }, */
+  },
 
   // {
   //   id: 6,
