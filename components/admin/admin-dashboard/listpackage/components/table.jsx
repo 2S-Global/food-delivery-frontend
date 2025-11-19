@@ -12,6 +12,7 @@ const Companytable = () => {
 
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -37,11 +38,11 @@ const Companytable = () => {
       return;
     }
 
-    const fetchCompanies = async () => {
+    const fetchCustomers = async () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${apiurl}/api/pacakageRoute/getAllPackages`,
+          `${apiurl}/api/auth/list-customers`,
 
           {
             headers: {
@@ -51,7 +52,7 @@ const Companytable = () => {
         );
 
         if (response.status === 200) {
-          setCompanies(response.data.data);
+          setCustomers(response.data.data);
           setSuccess(response.data.message);
         } else {
           setError(response.data.message);
@@ -63,7 +64,7 @@ const Companytable = () => {
       }
     };
 
-    fetchCompanies();
+    fetchCustomers();
   }, [apiurl]);
 
   const handleDelete = async (id) => {
@@ -75,8 +76,8 @@ const Companytable = () => {
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/pacakageRoute/deletePackage`,
-        { id: id },
+        `${apiurl}/api/userdata/delete-customer`,
+        { customerId: id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,7 +86,7 @@ const Companytable = () => {
       );
 
       if (response.data.success) {
-        setCompanies((prev) => prev.filter((company) => company._id !== id));
+        setCustomers((prev) => prev.filter((customer) => customer._id !== id));
         setSuccess(response.data.message);
       } else {
         setError(response.data.message);
@@ -96,6 +97,10 @@ const Companytable = () => {
   };
 
   const toggleStatus = async (id, currentStatus) => {
+
+    console.log("Here is my Customer ID: ", id);
+    console.log("Here is my Current Status: ", currentStatus);
+
     const token = localStorage.getItem("Super_token");
 
     console.log("Token:", token);
@@ -109,9 +114,9 @@ const Companytable = () => {
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/pacakageRoute/toggleStatusPackage`,
+        `${apiurl}/api/userdata/toggle-status`,
         {
-          pack_id: id,
+          user_id: id,
           status: !currentStatus,
         },
         {
@@ -122,7 +127,7 @@ const Companytable = () => {
       );
 
       if (response.data.success) {
-        setCompanies((prev) =>
+        setCustomers((prev) =>
           prev.map((comp) =>
             comp._id === id ? { ...comp, is_active: !currentStatus } : comp
           )
@@ -156,63 +161,59 @@ const Companytable = () => {
                     <th style={{ textAlign: "center" }}>Name</th>
                     <th style={{ textAlign: "center" }}>Email</th>
                     <th style={{ textAlign: "center" }}>Phone Number</th>
-                    <th style={{ textAlign: "center" }}>Address</th>
                     <th style={{ textAlign: "center" }}>Created Date</th>
                     <th style={{ textAlign: "center" }}>Status</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {companies.length === 0 ? (
+                  {customers.length === 0 ? (
                     <tr>
                       <td colSpan="6" style={{ textAlign: "center" }}>
                         No records found
                       </td>
                     </tr>
                   ) : (
-                    companies.map((company, index) => (
-                      <tr key={company._id}>
+                    customers.map((customer, index) => (
+                      <tr key={customer._id}>
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                        <td style={{ textAlign: "center" }}>{company.name}</td>
+                        <td style={{ textAlign: "center" }}>{customer.name}</td>
                         <td style={{ textAlign: "center" }}>
-                          {company.allowed_verifications}
+                          {customer.email}
                         </td>
-                        <td style={{ textAlign: "center" }}>
-                          ₹ {company.transaction_fee}
-                        </td>
+                        <td style={{ textAlign: "center" }}>{customer.phone_number}</td>
+                        <td style={{ textAlign: "center" }}>{customer.createdAt}</td>
                         <td style={{ textAlign: "center" }}>
                           <div className="form-check form-switch d-flex justify-content-center align-items-center">
                             <input
                               className="form-check-input"
                               type="checkbox"
                               role="switch"
-                              id={`switch-${company._id}`}
-                              checked={company.is_active}
+                              id={`switch-${customer._id}`}
+                              checked={customer.is_active}
                               onChange={() =>
-                                toggleStatus(company._id, company.is_active)
+                                toggleStatus(customer._id, customer.is_active)
                               }
                             />
                             <label
-                              className={`form-check-label ms-2 fw-semibold ${
-                                company.is_active
+                              className={`form-check-label ms-2 fw-semibold ${customer.is_active
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
-                              htmlFor={`switch-${company._id}`}
+                                }`}
+                              htmlFor={`switch-${customer._id}`}
                             >
-                              {company.is_active ? "Active" : "Inactive"}
+                              {customer.is_active ? "Active" : "Inactive"}
                             </label>
                           </div>
                         </td>
-
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">
-                            <Pencil
+                            {/* <Pencil
                               className="text-primary"
                               style={{ cursor: "pointer" }}
                               onClick={() => openModalRH(company)}
                               size={20}
-                            />
+                            /> */}
                             {/* <Settings
                               className="text-secondary"
                               style={{ cursor: "pointer" }}
@@ -227,7 +228,12 @@ const Companytable = () => {
                               size={20}
                               className="text-danger"
                               style={{ cursor: "pointer" }}
-                              onClick={() => handleDelete(company._id)}
+                              onClick={() => {
+                                const confirmDelete = window.confirm(
+                                  "Are you sure you want to delete this candidate?"
+                                );
+                                if (confirmDelete) handleDelete(customer._id);
+                              }}
                             />
                           </div>
                         </td>

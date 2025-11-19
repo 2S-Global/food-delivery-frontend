@@ -43,7 +43,7 @@ const Index = () => {
                   <div className="widget-title">
                     <h4>Customer List</h4>
 
-                    <span
+                    {/* <span
                       onClick={openModalRH}
                       style={{
                         cursor: "pointer",
@@ -54,7 +54,7 @@ const Index = () => {
                       }}
                     >
                       Add Customer
-                    </span>
+                    </span> */}
                   </div>
                   <Companytable />
                 </div>
