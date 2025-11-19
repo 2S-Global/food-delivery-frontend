@@ -99,7 +99,7 @@ const FormContent2 = () => {
       <div className="mb-3 d-flex justify-content-center pb-4 pt-4">
         <img
           alt="brand"
-          src="/images/foodgo.png"
+          src="/images/FoodvGo.png"
           /* width={200}
           height={60} */
           /*   style={{ height: "200px" }} */
