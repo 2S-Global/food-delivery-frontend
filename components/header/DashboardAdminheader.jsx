@@ -63,6 +63,12 @@ const DashboardHeader = () => {
             }}
           >
             <span>
+              <span style={{ color: "red" }}>F</span>OOD
+            </span>{" "}
+            <span>
+              <span style={{ color: "red" }}>G</span>O
+            </span>{" "}
+            {/* <span>
               <span style={{ color: "red" }}>G</span>LOBAL
             </span>{" "}
             <span>
@@ -79,7 +85,7 @@ const DashboardHeader = () => {
             </span>{" "}
             <span>
               <span style={{ color: "red" }}>L</span>IMITED
-            </span>{" "}
+            </span>{" "} */}
           </p>{" "}
           <div className="outer-box">
             {/* End notification-icon */}
@@ -106,11 +112,10 @@ const DashboardHeader = () => {
               <ul className="dropdown-menu">
                 {employerMenuData.map((item) => (
                   <li
-                    className={`${
-                      isActiveLink(item.routePath, usePathname())
+                    className={`${isActiveLink(item.routePath, usePathname())
                         ? "active"
                         : ""
-                    } mb-1`}
+                      } mb-1`}
                     key={item.id}
                   >
                     <Link href={item.routePath}>
@@ -120,9 +125,8 @@ const DashboardHeader = () => {
                 ))}
 
                 <li
-                  className={`${
-                    isActiveLink("/", usePathname()) ? "active" : ""
-                  } mb-1`}
+                  className={`${isActiveLink("/", usePathname()) ? "active" : ""
+                    } mb-1`}
                   key={11}
                 >
                   <Link href="/" onClick={() => localStorage.clear()}>
