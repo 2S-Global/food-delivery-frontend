@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "GEISIL-Admin",
-  description: "GEISIL-Admin",
+  title: "Food Go-Admin",
+  description: "Food Go-Admin",
 };
 import AuthWrapper from "./AuthWrapper";
 export default function Layout({ children }) {

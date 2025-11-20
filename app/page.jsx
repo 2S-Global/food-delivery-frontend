@@ -3,8 +3,8 @@ import Home from "@/components/home-1";
 import LogIn from "@/components/pages-menu/login";
 
 export const metadata = {
-  title: "GEISIL",
-  description: "GEISIL",
+  title: "FOOD GO",
+  description: "FOOD GO",
 };
 
 export default function page() {
