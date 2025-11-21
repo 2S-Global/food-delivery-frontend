@@ -8,7 +8,7 @@ const CandidateformModal = ({
   show,
   onClose,
   data = {},
-  setRefresh = () => {},
+  setRefresh = () => { },
 }) => {
   const [formData, setFormData] = useState({
     _id: data._id || "",
@@ -106,16 +106,37 @@ const CandidateformModal = ({
     }
 
     try {
-      const response = await axios.post(
-        `${apiurl}/api/auth/delivery-boy-register`,
-        { ...formData },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      // const response = await axios.post(
+      //   `${apiurl}/api/auth/delivery-boy-register`,
+      //   { ...formData },
+      //   { headers: { Authorization: `Bearer ${token}` } }
+      // );
+      let response;
+      if (formData._id) {
+        // UPDATE DELIVERY BOY
+        response = await axios.put(
+          `${apiurl}/api/auth/update-delivery-boy-account`,
+          { ...formData },
+          { headers: { Authorization: `Bearer ${token}` },
+            params: { userId: formData._id },   // query param here
+          }
+        );
+      } else {
+        // CREATE DELIVERY BOY
+        response = await axios.post(
+          `${apiurl}/api/auth/delivery-boy-register`,
+          { ...formData },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
 
       if (!response.data.success) throw new Error(response.data.message);
 
       setSuccess(response.data.message);
       setRefresh(true);
+
+      // ✅ CLOSE THE MODAL
+      onClose();
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Try again."
@@ -139,7 +160,7 @@ const CandidateformModal = ({
           {/* Header */}
           <div className="modal-header">
             <h5 className="modal-title">
-              {formData._id ? "Update Candidate" : "Add New Candidate"}
+              {formData._id ? "Update Delivery Boy" : "Add Delivery Boy"}
             </h5>
             <button
               type="button"
@@ -156,13 +177,12 @@ const CandidateformModal = ({
               <div className="row">
                 {/* Name */}
                 <div className="mb-3 col-md-6">
-                  <label className="form-label">Candidate Name</label>
+                  <label className="form-label">Delivery Boy Name</label>
                   <input
                     type="text"
                     name="name"
-                    className={`form-control ${
-                      touched.name && formErrors.name ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${touched.name && formErrors.name ? "is-invalid" : ""
+                      }`}
                     placeholder="Candidate Name"
                     value={formData.name || ""}
                     onChange={handleChange}
@@ -177,13 +197,12 @@ const CandidateformModal = ({
 
                 {/* Email */}
                 <div className="mb-3 col-md-6">
-                  <label className="form-label">Email Address</label>
+                  <label className="form-label">Delivery Boy Email Address</label>
                   <input
                     type="email"
                     name="email"
-                    className={`form-control ${
-                      touched.email && formErrors.email ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${touched.email && formErrors.email ? "is-invalid" : ""
+                      }`}
                     placeholder="Email Address"
                     value={formData.email || ""}
                     onChange={handleChange}

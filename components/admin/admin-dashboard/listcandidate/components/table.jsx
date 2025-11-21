@@ -114,9 +114,9 @@ const Companytable = ({ setRefresh, refresh }) => {
     }
 
     try {
-      const response = await axios.get(
-        `${apiurl}/api/companyRoutes/delete-companies`,
-        { companyId: id, role: 1 },
+      const response = await axios.post(
+        `${apiurl}/api/userdata/delete-customer`,
+        { customerId: id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -154,11 +154,11 @@ const Companytable = ({ setRefresh, refresh }) => {
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/companyRoutes/togglestatus-companies`,
+        `${apiurl}/api/userdata/toggle-status`,
         {
-          companyId: id,
-          status: !currentStatus,
-          role: 1,
+          user_id: id,
+          // status: !currentStatus,
+          // role: 1,
         },
         {
           headers: {
@@ -168,7 +168,7 @@ const Companytable = ({ setRefresh, refresh }) => {
       );
 
       if (response.data.success) {
-        setCompanies((prev) =>
+        setDeliveryPartner((prev) =>
           prev.map((comp) =>
             comp._id === id ? { ...comp, is_active: !currentStatus } : comp
           )
@@ -242,6 +242,7 @@ const Companytable = ({ setRefresh, refresh }) => {
   const [searchText, setSearchText] = useState("");
 
   // 🔎 Filter data based on search text
+  /*
   const filteredCompanies = useMemo(() => {
     return companies.filter((company) => {
       const search = searchText.toLowerCase();
@@ -251,7 +252,20 @@ const Companytable = ({ setRefresh, refresh }) => {
         (company.is_active ? "active" : "inactive").includes(search)
       );
     });
-  }, [companies, searchText]);
+  }, [companies, searchText]);  */
+
+
+  const filteredDeliveryPartners = useMemo(() => {
+    return deliveryPartner.filter((partner) => {
+      const search = searchText.toLowerCase();
+      return (
+        partner.name?.toLowerCase().includes(search) ||
+        partner.email?.toLowerCase().includes(search) ||
+        (partner.is_active ? "active" : "inactive").includes(search)
+      );
+    });
+  }, [deliveryPartner, searchText]);
+
 
   const columns = [
     {
@@ -262,14 +276,14 @@ const Companytable = ({ setRefresh, refresh }) => {
       sortable: false,
     },
     {
-      name: "Candidate Name",
+      name: "Name",
       selector: (row) => row.name,
       sortable: true,
       width: "",
       center: true,
     },
     {
-      name: "Candidate Email",
+      name: "Email",
       selector: (row) => row.email,
       sortable: true,
       width: "",
@@ -289,6 +303,20 @@ const Companytable = ({ setRefresh, refresh }) => {
       ),
     },
     {
+      name: "Phone Number",
+      selector: (row) => row.phone_number,
+      sortable: true,
+      width: "",
+      center: true,
+    },
+    {
+      name: "Created Date",
+      selector: (row) => row.createdAt,
+      sortable: true,
+      center: true,
+      width: "150px",
+    },
+    {
       name: "Status",
       cell: (row) => (
         <div className="form-check form-switch d-flex mt-2 ">
@@ -300,9 +328,8 @@ const Companytable = ({ setRefresh, refresh }) => {
             onChange={() => toggleStatus(row._id, row.is_active)}
           />
           <label
-            className={`form-check-label ms-2 fw-semibold ${
-              row.is_active ? "text-success" : "text-danger"
-            }`}
+            className={`form-check-label ms-2 fw-semibold ${row.is_active ? "text-success" : "text-danger"
+              }`}
           >
             {row.is_active ? "Active" : "Inactive"}
           </label>
@@ -312,26 +339,10 @@ const Companytable = ({ setRefresh, refresh }) => {
       width: "100px",
     },
     {
-      name: "Created Date",
-      selector: (row) =>
-        new Date(row.createdAt).toLocaleString("en-IN", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-          timeZone: "Asia/Kolkata",
-        }),
-      sortable: true,
-      center: true,
-      width: "150px",
-    },
-    {
       name: "Action",
       cell: (row) => (
         <div className="d-flex  gap-3">
-          <Eye
+          {/* <Eye
             color="green"
             style={{ cursor: "pointer" }}
             onClick={() =>
@@ -342,8 +353,8 @@ const Companytable = ({ setRefresh, refresh }) => {
               )
             }
             size={20}
-          />
-          {downloading && downloadingid === row._id ? (
+          /> */}
+          {/* {downloading && downloadingid === row._id ? (
             <>
               <>
                 <svg width="0" height="0" style={{ position: "absolute" }}>
@@ -374,7 +385,7 @@ const Companytable = ({ setRefresh, refresh }) => {
               onClick={() => handleDownload(row._id, row.name)}
               size={20}
             />
-          )}
+          )} */}
 
           <Pencil
             className="text-primary"
@@ -396,7 +407,7 @@ const Companytable = ({ setRefresh, refresh }) => {
         </div>
       ),
       center: true,
-      width: "150px",
+      width: "80px",
     },
   ];
 
@@ -419,7 +430,7 @@ const Companytable = ({ setRefresh, refresh }) => {
           <div className="table-wrapper">
             <DataTable
               columns={columns}
-              data={filteredCompanies}
+              data={filteredDeliveryPartners}
               pagination
               highlightOnHover
               dense
