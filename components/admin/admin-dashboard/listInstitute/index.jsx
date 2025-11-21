@@ -51,7 +51,7 @@ const Index = () => {
               <div className="col-lg-12">
                 <div className="applicants-widget ls-widget">
                   <div className="widget-title">
-                    <h4>Institute List</h4>
+                    <h4>Order List</h4>
 
                     <div style={{ display: "flex", gap: "15px" }}>
                       <span
@@ -64,7 +64,7 @@ const Index = () => {
                           fontSize: "16px",
                         }}
                       >
-                        Add Institute
+                        Add Order
                       </span>
 
                       <span

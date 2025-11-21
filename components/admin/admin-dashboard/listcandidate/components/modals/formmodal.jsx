@@ -75,6 +75,7 @@ const CandidateformModal = ({
   // ------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting form with data:", formData);
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -106,8 +107,8 @@ const CandidateformModal = ({
 
     try {
       const response = await axios.post(
-        `${apiurl}/api/companyRoutes/register123`,
-        { ...formData, role: 1 },
+        `${apiurl}/api/auth/delivery-boy-register`,
+        { ...formData },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

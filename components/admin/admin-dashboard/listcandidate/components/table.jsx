@@ -21,6 +21,7 @@ const Companytable = ({ setRefresh, refresh }) => {
   const [downloading, setDownloading] = useState(false);
   const [downloadingid, setDownloadingid] = useState(null);
   const [companies, setCompanies] = useState([]);
+  const [deliveryPartner, setDeliveryPartner] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -77,9 +78,9 @@ const Companytable = ({ setRefresh, refresh }) => {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${apiurl}/api/companyRoutes/list-companies`,
-        { role: 1 },
+      const response = await axios.get(
+        `${apiurl}/api/userdata/list-delivery-boys`,
+        // { role: 1 },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -88,7 +89,8 @@ const Companytable = ({ setRefresh, refresh }) => {
       );
 
       if (response.data.success) {
-        setCompanies(response.data.data);
+        // setCompanies(response.data.data);
+        setDeliveryPartner(response.data.data);
         setSuccess(response.data.message);
         setMessage_id(Date.now());
       } else {
@@ -112,7 +114,7 @@ const Companytable = ({ setRefresh, refresh }) => {
     }
 
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         `${apiurl}/api/companyRoutes/delete-companies`,
         { companyId: id, role: 1 },
         {

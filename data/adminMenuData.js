@@ -10,7 +10,7 @@ module.exports = [
     id: 2,
     name: "Manage Menu",
     icon: "la-building",
-    routePath: "/admin/listcompany",
+    routePath: "/admin/manage-menu",
     active: "",
   },
 
@@ -18,7 +18,7 @@ module.exports = [
     id: 3,
     name: "List Order",
     icon: "la-file-alt",
-    routePath: "/admin/listinstitute",
+    routePath: "/admin/list-order",
     active: "",
   },
 
@@ -26,7 +26,7 @@ module.exports = [
     id: 4,
     name: "Manage Delivery Boy",
     icon: "la-id-badge",
-    routePath: "/admin/listcandidate",
+    routePath: "/admin/manage-delivery-boy",
     active: "",
   },
   {

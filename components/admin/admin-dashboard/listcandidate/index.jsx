@@ -61,7 +61,7 @@ const Index = () => {
                       alignItems: "center",
                     }}
                   >
-                    <h4>Candidate List</h4>
+                    <h4>Delivery boy List</h4>
 
                     <div style={{ display: "flex", gap: "15px" }}>
                       <span
@@ -74,10 +74,10 @@ const Index = () => {
                           fontSize: "16px",
                         }}
                       >
-                        Add Candidate
+                        Add Delivery Boy
                       </span>
 
-                      <span
+                      {/* <span
                         onClick={openCsvModal}
                         style={{
                           cursor: "pointer",
@@ -87,7 +87,7 @@ const Index = () => {
                         }}
                       >
                         Import From Excel
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   <Candidatetable setRefresh={setRefresh} refresh={refresh} />

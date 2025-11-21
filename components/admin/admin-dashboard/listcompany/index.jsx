@@ -59,7 +59,7 @@ const Index = () => {
                       alignItems: "center",
                     }}
                   >
-                    <h4>Company List</h4>
+                    <h4>Menu List</h4>
 
                     <div style={{ display: "flex", gap: "15px" }}>
                       <span
@@ -71,7 +71,7 @@ const Index = () => {
                           fontSize: "16px",
                         }}
                       >
-                        Add Company
+                        Add Menu
                       </span>
 
                       <span
