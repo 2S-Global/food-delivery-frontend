@@ -327,10 +327,12 @@ const Companytable = () => {
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
                     <th style={{ textAlign: "center" }}>Name</th>
-                    <th style={{ textAlign: "center" }}>Email</th>
-                    <th style={{ textAlign: "center" }}>Status</th>
+                    <th style={{ textAlign: "center" }}>Type</th>
+                    <th style={{ textAlign: "center" }}>Description</th>
                     {/*  <th style={{ textAlign: "center" }}>Total Verification</th> */}
-                    <th style={{ textAlign: "center" }}>Created Date</th>
+                    <th style={{ textAlign: "center" }}>Image</th>
+                    <th style={{ textAlign: "center" }}>Day</th>
+                    <th style={{ textAlign: "center" }}>Meal Type</th>
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>

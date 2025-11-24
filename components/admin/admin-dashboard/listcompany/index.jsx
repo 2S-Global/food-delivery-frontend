@@ -74,7 +74,7 @@ const Index = () => {
                         Add Menu
                       </span>
 
-                      <span
+                      {/* <span
                         onClick={openCsvModal}
                         style={{
                           cursor: "pointer",
@@ -84,7 +84,7 @@ const Index = () => {
                         }}
                       >
                         Import CSV
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   <Companytable />

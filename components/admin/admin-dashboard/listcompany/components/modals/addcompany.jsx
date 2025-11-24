@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
+import Select from "react-select";
 
 const AddCompanyModal = ({ show, onClose }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    transaction_fee: 0,
-    transaction_gst: 18,
-    allowed_verifications: "",
-    phone_number: "",
-    address: "",
-    gst_no: "",
-    package_id: "",
-    discount_percent: "",
+    _id: "",
+    menuName: "",
+    menuType: "",
+    description: "",
+    images: [],
+    dayType: "",
+    mealType: "",
   });
+
+  // const [imagePreviewLink, setImagePreviewLink] = useState(
+  //   item.image || "/images/resource/no_user.png"
+  // );
+
+  const [imagePreviewLink, setImagePreviewLink] = useState([]);
+  const fileInputRef = useRef(null);
+
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -25,17 +30,13 @@ const AddCompanyModal = ({ show, onClose }) => {
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [formErrors, setFormErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-    transaction_fee: 0,
-    transaction_gst: 18,
-    allowed_verifications: "",
-    phone_number: "",
-    address: "",
-    gst_no: "",
-    package_id: "",
-    discount_percent: "",
+    _id: "",
+    menuName: "",
+    menuType: "",
+    description: "",
+    images: [],
+    dayType: "",
+    mealType: "",
   });
 
   const [touched, setTouched] = useState({
@@ -54,6 +55,61 @@ const AddCompanyModal = ({ show, onClose }) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [gstError, setGstError] = useState(false);
+
+  const menuTypeOptions = [
+    { value: "veg", label: "Veg" },
+    { value: "non-veg", label: "Non-Veg" },
+    { value: "regular", label: "Regular" },
+    { value: "additional", label: "Additional" },
+  ];
+
+  const dayOptions = [
+    { value: "monday", label: "Monday" },
+    { value: "tuesday", label: "Tuesday" },
+    { value: "wednesday", label: "Wednesday" },
+    { value: "thursday", label: "Thursday" },
+    { value: "friday", label: "Friday" },
+    { value: "saturday", label: "Saturday" },
+  ];
+
+  const mealTypeOptions = [
+    { value: "breakfast", label: "Breakfast" },
+    { value: "lunch", label: "Lunch" },
+    { value: "dinner", label: "Dinner" }
+  ];
+
+  const handleImageChange = (e) => {
+    console.log("Here My Event is Calling: ", e);
+    const files = Array.from(e.target.files);
+
+    const newPreviewLinks = files.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...files],
+    }));
+
+    setImagePreviewLink((prev) => [...prev, ...newPreviewLinks]);
+  };
+
+  const handleRemoveImage = (index) => {
+    setImagePreviewLink((prev) => prev.filter((_, i) => i !== index));
+
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+
+    // Clear file input if all images removed
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+
+
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -91,42 +147,12 @@ const AddCompanyModal = ({ show, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    let updatedValue = value;
-    let errorMsg = "";
-
-    switch (name) {
-      case "email":
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(value)) {
-          errorMsg = "Please enter a valid email address.";
-        }
-        break;
-
-      case "phone_number":
-        updatedValue = value.replace(/\D/g, ""); // Remove non-digits
-        if (updatedValue.length > 10) {
-          updatedValue = updatedValue.slice(0, 10); // Limit to 10 digits
-        }
-        if (updatedValue && updatedValue.length !== 10) {
-          errorMsg = "Phone number must be exactly 10 digits.";
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: updatedValue,
-    }));
-
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMsg,
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
+
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -148,6 +174,7 @@ const AddCompanyModal = ({ show, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form Data Submitted By Chandra Sarkar:", formData);
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -159,19 +186,45 @@ const AddCompanyModal = ({ show, onClose }) => {
     }
 
     try {
-      const response = await axios.post(
-        `${apiurl}/api/companyRoutes/register`,
-        {
-          ...formData,
-          role: 2,
-        },
 
+      const formDataToSend = new FormData();
+
+      formDataToSend.append("menuName", formData.menuName);
+      formDataToSend.append("menuType", formData.menuType);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("dayType", formData.dayType);
+      formDataToSend.append("mealType", formData.mealType);
+
+      // append images
+      for (let i = 0; i < formData.images.length; i++) {
+        formDataToSend.append("images", formData.images[i]);
+      }
+
+      const response = await axios.post(
+        `${apiurl}/api/userdata/add-menu`,
+        formDataToSend,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
+
+
+      // const response = await axios.post(
+      //   `${apiurl}/api/userdata/add-menu`,
+      //   {
+      //     ...formData,
+      //     // role: 2,
+      //   },
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
 
       if (!response.data.success) {
         throw new Error(response.data.message || "An error occurred");
@@ -204,7 +257,7 @@ const AddCompanyModal = ({ show, onClose }) => {
           <div className="modal-content">
             {/* Modal Header */}
             <div className="modal-header">
-              <h5 className="modal-title">Add New Company</h5>
+              <h5 className="modal-title">Add New Menu</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -220,15 +273,15 @@ const AddCompanyModal = ({ show, onClose }) => {
                 <div className="row">
                   <div className="mb-3 col-md-6">
                     <label htmlFor="name" className="form-label">
-                      Company Name <span style={{ color: "red" }}>*</span>
+                      Menu Name <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
-                      name="name"
+                      name="menuName"
                       className="form-control"
-                      placeholder="Company Name"
+                      placeholder="Menu Name"
                       required
-                      value={formData.name}
+                      value={formData.menuName}
                       onChange={handleChange}
                     />
                     {formErrors.name && (
@@ -238,290 +291,154 @@ const AddCompanyModal = ({ show, onClose }) => {
 
                   <div className="mb-3 col-md-6">
                     <label htmlFor="email" className="form-label">
-                      Official Email Address{" "}
+                      Menu Type{" "}
                       <span style={{ color: "red" }}>*</span>
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      className={`form-control ${touched.email && formErrors.email ? "is-invalid" : ""}`}
-                      placeholder="Enter your Official Email address"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      onBlur={() =>
-                        setTouched((prev) => ({ ...prev, email: true }))
-                      }
-                    />
-                    {touched.email && formErrors.email && (
-                      <div className="invalid-feedback">{formErrors.email}</div>
-                    )}
-                  </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="phone_number" className="form-label">
-                      Phone Number
-                    </label>
-                    <input
-                      name="phone_number"
-                      className={`form-control ${formErrors.phone_number ? "is-invalid" : ""}`}
-                      value={formData.phone_number}
-                      onChange={handleChange}
-                      maxLength={10}
-                      onBlur={() =>
-                        setTouched((prev) => ({
+                    <Select
+                      options={menuTypeOptions}
+                      value={menuTypeOptions.find(opt => opt.value === formData.menuType)}
+                      onChange={(selected) =>
+                        setFormData((prev) => ({
                           ...prev,
-                          phone_number: true,
+                          menuType: selected.value,
                         }))
                       }
                     />
-                    {touched.phone_number && formErrors.phone_number && (
-                      <div className="invalid-feedback">
-                        {formErrors.phone_number}
-                      </div>
-                    )}
                   </div>
 
-                  <div className="mb-3 col-md-6">
+                  <div className="mb-3 col-md-12">
                     <label htmlFor="address" className="form-label">
-                      Address <span style={{ color: "red" }}>*</span>
+                      Description <span style={{ color: "red" }}>*</span>
                     </label>
                     <textarea
-                      name="address"
+                      name="description"
                       className="form-control"
-                      placeholder="Address"
+                      placeholder="Description"
                       required
-                      value={formData.address}
+                      value={formData.description}
                       onChange={handleChange}
                       rows={3}
                     />
                   </div>
 
-                  {/* <div className="mb-4 col-md-6 position-relative">
-                    <label htmlFor="password" className="form-label">
-                      Password <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <div className="position-relative">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        className="form-control pe-5"
-                        placeholder="Password"
-                        required
-                        value={formData.password}
-                        onChange={handleChange}
-                      />
-                      <span
-                        onClick={togglePasswordVisibility}
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          right: "15px",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                          color: "#6c757d",
-                        }}
-                      >
-                        {showPassword ? (
-                          <EyeOff size={20} />
-                        ) : (
-                          <Eye size={20} />
-                        )}
-                      </span>
-                    </div>
-                  </div> */}
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="gst_no" className="form-label">
-                      GST Number
+                  <div className="mb-3 col-md-12">
+                    <label htmlFor="name" className="form-label">
+                      Image <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
-                      type="text"
-                      name="gst_no"
-                      className={`form-control ${gstError ? "is-invalid" : ""}`}
-                      placeholder="GST Number"
-                      value={formData.gst_no}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-                        const trimmed = value.trim().toUpperCase(); // Convert to uppercase for validation
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmed,
-                        });
-
-                        // Set error if invalid GST
-                        if (trimmed === "") {
-                          setGstError(false); // No error for empty field
-                        } else {
-                          setGstError(!isValidGST(trimmed));
-                        }
-                      }}
+                      type="file"
+                      multiple
+                      accept="image/png, image/jpeg"
+                      name="images"
+                      className="form-control"
+                      // required
+                      onChange={handleImageChange}
+                      ref={fileInputRef}
                     />
-                    {gstError && (
-                      <div className="invalid-feedback d-block">
-                        Invalid GST Number. Please enter a valid one.
-                      </div>
+                    {formErrors.images && (
+                      <div className="invalid-feedback">{formErrors.images}</div>
                     )}
                   </div>
-                  {/* 
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="package_id" className="form-label">
-                      Package
-                    </label>
-                    <select
-                      name="package_id"
-                      className="form-select"
-                      required
-                      value={formData.package_id}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Package</option>
-                      <option value="1">
-                        All( PAN, Aadhaar, EPIC, Driving License, Passport )
-                      </option>
-                      <option value="2">Individual</option>
-                    </select>
-                  </div>
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="transaction_fee" className="form-label">
-                      Transaction Fee
-                    </label>
-                    <input
-                      type="number"
-                      name="transaction_fee"
-                      className="form-control"
-                      placeholder="Transaction Fee"
-                      required
-                      value={formData.transaction_fee}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
 
-                        let trimmedValue = value.trim();
-
-                        // If it's a decimal like 0.1234, keep the leading 0
-                        if (/^0\.\d+$/.test(trimmedValue)) {
-                          // do nothing, keep as is
-                        } else {
-                          // Remove leading zeros, but preserve decimal portion
-                          trimmedValue =
-                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
-                        }
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmedValue,
-                        });
-                      }}
-                    />
-                  </div>
-
-                  {formData.package_id === "" ? null : formData.package_id ==
-                    2 ? (
-                    <div className="mb-3 text-center col-md-12">
-                      <strong className="d-block mb-2">
-                        Allowed Verification
-                      </strong>
-                      <div className="d-flex justify-content-center flex-wrap gap-3">
-                        {["PAN", "Aadhaar", "EPIC", "DL", "Passport"].map(
-                          (item, index) => (
-                            <div className="form-check" key={index}>
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`check-${index}`}
-                                value={item}
-                                onChange={handleCheckboxChange}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={`check-${index}`}
-                              >
-                                {item}
-                              </label>
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="mb-4 text-center col-md-12">
-                      <span className="fw-semibold fs-5 text-success">
-                        All verifications are selected by default ( PAN,
-                        Aadhaar, EPIC, Driving License, Passport )
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="discount_percent" className="form-label">
-                      Discount Percentage (%)
-                    </label>
-                    <input
-                      type="number"
-                      name="discount_percent"
-                      className="form-control"
-                      placeholder="Discount Percentage"
-                      required
-                      value={formData.discount_percent}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-
-                        let trimmedValue = value.trim();
-
-                        // If it's a decimal like 0.1234, keep the leading 0
-                        if (/^0\.\d+$/.test(trimmedValue)) {
-                          // do nothing, keep as is
-                        } else {
-                          // Remove leading zeros, but preserve decimal portion
-                          trimmedValue =
-                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
-                        }
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmedValue,
-                        });
-                      }}
-                    />
-                  </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="transaction_gst" className="form-label">
-                      Transaction GST (%)
-                    </label>
-                    <input
-                      type="number"
-                      name="transaction_gst"
-                      className="form-control"
-                      placeholder="Transaction GST"
-                      required
-                      value={formData.transaction_gst}
-                      onChange={handleChange}
-                      onBlur={(e) => {
-                        const { name, value } = e.target;
-
-                        let trimmedValue = value.trim();
-
-                        // If it's a decimal like 0.1234, keep the leading 0
-                        if (/^0\.\d+$/.test(trimmedValue)) {
-                          // do nothing, keep as is
-                        } else {
-                          // Remove leading zeros, but preserve decimal portion
-                          trimmedValue =
-                            trimmedValue.replace(/^0+(?=\d)/, "") || "0";
-                        }
-
-                        setFormData({
-                          ...formData,
-                          [name]: trimmedValue,
-                        });
-                      }}
-                    />
+                  {/* <div className="d-flex mt-2">
+                    {imagePreviewLink.map((src, index) => (
+                      <img
+                        key={index}
+                        src={src}
+                        alt="Preview"
+                        style={{
+                          maxWidth: "120px",
+                          marginRight: "8px",
+                          border: "1px solid #ccc",
+                          padding: "4px",
+                          borderRadius: "6px",
+                        }}
+                      />
+                    ))}
                   </div> */}
+
+                  {/* <div className="d-flex mt-2"> */}
+                  <div
+                    className="d-flex flex-wrap mt-2"
+                    style={{ gap: "8px" }}   // optional: spacing between images
+                  >
+                    {imagePreviewLink.map((src, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          position: "relative",
+                          marginRight: "8px",
+                        }}
+                      >
+                        <img
+                          src={src}
+                          alt="Preview"
+                          style={{
+                            maxWidth: "120px",
+                            border: "1px solid #ccc",
+                            padding: "4px",
+                            borderRadius: "6px",
+                          }}
+                        />
+
+                        {/* Close button */}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(index)}
+                          style={{
+                            position: "absolute",
+                            top: "-6px",
+                            right: "-6px",
+                            background: "red",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "22px",
+                            height: "27px",
+                            cursor: "pointer",
+                            fontSize: "12px",
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="phone_number" className="form-label">
+                      Day
+                    </label>
+                    <Select
+                      options={dayOptions}
+                      value={dayOptions.find(opt => opt.value === formData.dayType)}
+                      onChange={(selected) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          dayType: selected.value,
+                        }))
+                      }
+                    />
+                  </div>
+
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="phone_number" className="form-label">
+                      Meal Type
+                    </label>
+                    <Select
+                      options={mealTypeOptions}
+                      value={mealTypeOptions.find(opt => opt.value === formData.mealType)}
+                      onChange={(selected) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          mealType: selected.value,
+                        }))
+                      }
+                    />
+
+                  </div>
+
                 </div>
                 <button
                   type="submit"
