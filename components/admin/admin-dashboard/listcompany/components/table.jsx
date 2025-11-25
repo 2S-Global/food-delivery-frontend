@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
+import AddCompanyModal from "./modals/addcompany";
 
 import {
   Trash2,
@@ -24,10 +25,12 @@ const Companytable = () => {
 
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
+  const [menus, setMenus] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
   const [editcompany, setEditcompany] = useState(null);
+  const [editMenu, setEditMenu] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalplanOpen, setIsModalplanOpen] = useState(false);
@@ -38,7 +41,8 @@ const Companytable = () => {
 
   const [emailloading, setEmailloading] = useState(false);
   const openModalRH = (companydetails) => {
-    setEditcompany(companydetails);
+    // setEditcompany(companydetails);
+    setEditMenu(companydetails);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden"; // Disable background scrolling
   };
@@ -84,9 +88,9 @@ const Companytable = () => {
     const fetchCompanies = async () => {
       try {
         setLoading(true);
-        const response = await axios.post(
-          `${apiurl}/api/companyRoutes/list-companies`,
-          { role: 2 },
+        const response = await axios.get(
+          `${apiurl}/api/userdata/list-all-menu`,
+          // { role: 2 },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,7 +99,8 @@ const Companytable = () => {
         );
 
         if (response.data.success) {
-          setCompanies(response.data.data);
+          // setCompanies(response.data.data);
+          setMenus(response.data.data);
           setSuccess(response.data.message);
         } else {
           setError(response.data.message);
@@ -119,24 +124,27 @@ const Companytable = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${apiurl}/api/companyRoutes/delete-companies`,
-        { companyId: id, role: 2 },
+      const response = await axios.delete(
+        `${apiurl}/api/userdata/delete-menu`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          params: {
+            _id: id,
+          }
         }
       );
 
       if (response.data.success) {
-        setCompanies((prev) => prev.filter((company) => company._id !== id));
+        // setCompanies((prev) => prev.filter((company) => company._id !== id));
+        setMenus((prev) => prev.filter((menu) => menu._id !== id));
         setSuccess(response.data.message);
       } else {
         setError(response.data.message);
       }
     } catch (err) {
-      setError("Error deleting company. Please try again.");
+      setError("Error deleting menu. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -337,19 +345,23 @@ const Companytable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {companies.length === 0 ? (
+                  {menus.length === 0 ? (
                     <tr>
                       <td colSpan="7" style={{ textAlign: "center" }}>
                         No records found
                       </td>
                     </tr>
                   ) : (
-                    companies.map((company, index) => (
-                      <tr key={company._id}>
+                    menus.map((menu, index) => (
+                      <tr key={menu._id}>
                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                        <td style={{ textAlign: "center" }}>{company.name}</td>
-                        <td style={{ textAlign: "center" }}>{company.email}</td>
-                        <td style={{ textAlign: "center" }}>
+                        <td style={{ textAlign: "center" }}>{menu.menuName}</td>
+                        <td style={{ textAlign: "center" }}>{menu.menuType}</td>
+                        <td style={{ textAlign: "center" }}>{menu.description}</td>
+                        <td style={{ textAlign: "center" }}>{" "}</td>
+                        <td style={{ textAlign: "center" }}>{menu.dayType}</td>
+                        <td style={{ textAlign: "center" }}>{menu.mealType}</td>
+                        {/* <td style={{ textAlign: "center" }}>
                           <div className="form-check form-switch d-flex justify-content-center align-items-center">
                             <input
                               className="form-check-input"
@@ -372,7 +384,7 @@ const Companytable = () => {
                               {company.is_active ? "Active" : "Inactive"}
                             </label>
                           </div>
-                        </td>
+                        </td> */}
                         {/*  <td
                           style={{
                             textAlign: "center",
@@ -394,7 +406,7 @@ const Companytable = () => {
                         >
                           {company.orderCount > 0 ? company.orderCount : 0}
                         </td> */}
-                        <td style={{ textAlign: "center" }}>
+                        {/* <td style={{ textAlign: "center" }}>
                           {new Date(company.createdAt).toLocaleString("en-IN", {
                             day: "2-digit",
                             month: "2-digit",
@@ -405,11 +417,11 @@ const Companytable = () => {
                             hour12: true,
                             timeZone: "Asia/Kolkata",
                           })}
-                        </td>
+                        </td> */}
 
                         <td className="text-center">
                           <div className="d-flex justify-content-center gap-3">
-                            <span title="View Details">
+                            {/* <span title="View Details">
                               <Eye
                                 color="green"
                                 style={{ cursor: "pointer" }}
@@ -420,13 +432,14 @@ const Companytable = () => {
                                 }
                                 size={20}
                               />
-                            </span>
+                            </span> */}
 
                             <span title="Edit">
                               <Pencil
                                 className="text-primary"
                                 style={{ cursor: "pointer" }}
-                                onClick={() => openModalRH(company)}
+                                // onClick={() => openModalRH(company)}
+                                onClick={() => openModalRH(menu)}
                                 size={20}
                               />
                             </span>
@@ -450,7 +463,7 @@ const Companytable = () => {
                                     "Are you sure you want to delete this company?"
                                   );
                                   if (confirmDelete) {
-                                    handleDelete(company._id);
+                                    handleDelete(menu._id);
                                   }
                                 }}
                               />
@@ -507,10 +520,11 @@ const Companytable = () => {
       )}
 
       {isModalOpen && (
-        <EditfieldModal
+        <AddCompanyModal
           show={isModalOpen}
           onClose={closeModalRH}
-          field={editcompany}
+          // field={editcompany}
+          field={editMenu}
         />
       )}
 

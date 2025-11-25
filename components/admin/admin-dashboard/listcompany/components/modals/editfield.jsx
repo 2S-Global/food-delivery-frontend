@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 
-const EditfieldModal = ({ show, onClose, field }) => {
+const EditfieldModal = ({ show, onClose, field = {} }) => {
   const router = useRouter();
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 

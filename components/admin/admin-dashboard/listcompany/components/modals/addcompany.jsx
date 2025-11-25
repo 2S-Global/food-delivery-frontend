@@ -5,22 +5,32 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 import Select from "react-select";
 
-const AddCompanyModal = ({ show, onClose }) => {
+const AddCompanyModal = ({ show, onClose, field = {} }) => {
+
   const [formData, setFormData] = useState({
-    _id: "",
-    menuName: "",
-    menuType: "",
-    description: "",
+    _id: field._id || "",
+    menuName: field.menuName || "",
+    menuType: field.menuType || "",
+    description: field.description || "",
     images: [],
-    dayType: "",
-    mealType: "",
+    oldImages: field.images || [],      // existing URLs
+    newImages: [],                      // only new files
+    dayType: field.dayType || "",
+    mealType: field.mealType || "",
   });
 
   // const [imagePreviewLink, setImagePreviewLink] = useState(
   //   item.image || "/images/resource/no_user.png"
   // );
 
-  const [imagePreviewLink, setImagePreviewLink] = useState([]);
+  // const [imagePreviewLink, setImagePreviewLink] = useState([]);
+
+  // For Testing this should uncomment
+
+  const [imagePreviewLink, setImagePreviewLink] = useState(
+    field.images?.length ? field.images : []
+  );
+
   const fileInputRef = useRef(null);
 
 
@@ -34,7 +44,9 @@ const AddCompanyModal = ({ show, onClose }) => {
     menuName: "",
     menuType: "",
     description: "",
-    images: [],
+    // images: [],
+    oldImages: field.images || [],      // existing URLs
+    newImages: [],                      // only new files
     dayType: "",
     mealType: "",
   });
@@ -79,7 +91,6 @@ const AddCompanyModal = ({ show, onClose }) => {
   ];
 
   const handleImageChange = (e) => {
-    console.log("Here My Event is Calling: ", e);
     const files = Array.from(e.target.files);
 
     const newPreviewLinks = files.map((file) =>
@@ -88,25 +99,46 @@ const AddCompanyModal = ({ show, onClose }) => {
 
     setFormData((prev) => ({
       ...prev,
-      images: [...prev.images, ...files],
+      // images: [...prev.images, ...files],
+      newImages: [...prev.newImages, ...files],   // only new files
     }));
 
     setImagePreviewLink((prev) => [...prev, ...newPreviewLinks]);
   };
 
+  // const handleRemoveImage = (index) => {
+  //   setImagePreviewLink((prev) => prev.filter((_, i) => i !== index));
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     images: prev.images.filter((_, i) => i !== index),
+  //   }));
+
+  //   // Clear file input if all images removed
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = "";
+  //   }
+  // };
+
   const handleRemoveImage = (index) => {
-    setImagePreviewLink((prev) => prev.filter((_, i) => i !== index));
+    const isOldImage = typeof imagePreviewLink[index] === "string"
+      && imagePreviewLink[index].startsWith("https");
 
-    setFormData((prev) => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== index),
-    }));
-
-    // Clear file input if all images removed
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    if (isOldImage) {
+      setFormData((prev) => ({
+        ...prev,
+        oldImages: prev.oldImages.filter((_, i) => i !== index),
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        newImages: prev.newImages.filter((_, i) => i !== index - prev.oldImages.length),
+      }));
     }
+
+    setImagePreviewLink((prev) => prev.filter((_, i) => i !== index));
   };
+
 
 
 
@@ -175,6 +207,7 @@ const AddCompanyModal = ({ show, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Data Submitted By Chandra Sarkar:", formData);
+    // return;
     setLoading(true);
     setError(null);
     setSuccess(null);
@@ -196,20 +229,61 @@ const AddCompanyModal = ({ show, onClose }) => {
       formDataToSend.append("mealType", formData.mealType);
 
       // append images
-      for (let i = 0; i < formData.images.length; i++) {
-        formDataToSend.append("images", formData.images[i]);
-      }
+      // for (let i = 0; i < formData.images.length; i++) {
+      //   formDataToSend.append("images", formData.images[i]);
+      // }
 
-      const response = await axios.post(
-        `${apiurl}/api/userdata/add-menu`,
-        formDataToSend,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      // send OLD URLs
+      formData.oldImages.forEach((url) => {
+        formDataToSend.append("oldImages[]", url);
+      });
+
+      // send NEW files
+      formData.newImages.forEach((file) => {
+        formDataToSend.append("newImages", file);
+      });
+
+      // Add only new uploaded images
+      // formData.newImages.forEach((file) => {
+      //   formDataToSend.append("images", file);  // MUST MATCH backend
+      // });
+
+      // Send oldImages separately as JSON
+      // formDataToSend.append("oldImages", JSON.stringify(formDataState.oldImages));
+
+      // ADD vs EDIT decision
+      // const isEdit = Boolean(formData.id);
+      let response;
+      if (!formData._id) {
+        response = await axios.post(
+          `${apiurl}/api/userdata/add-menu`,
+          formDataToSend,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } else {
+        // -------------------------------
+        // 🟢 EDIT MODE BLOCK
+        // -------------------------------
+        console.log("Calling EDIT API…");
+
+        console.log("Here is my all Form Data: ",formDataToSend);
+
+        response = await axios.put(
+          `${apiurl}/api/userdata/edit-menu/${formData._id}`,
+          formDataToSend,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      }
 
 
       // const response = await axios.post(
@@ -329,7 +403,8 @@ const AddCompanyModal = ({ show, onClose }) => {
                       type="file"
                       multiple
                       accept="image/png, image/jpeg"
-                      name="images"
+                      // name="images"
+                      name="newImages"
                       className="form-control"
                       // required
                       onChange={handleImageChange}
