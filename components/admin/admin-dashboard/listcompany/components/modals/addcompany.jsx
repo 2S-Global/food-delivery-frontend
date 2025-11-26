@@ -69,25 +69,25 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
   const [gstError, setGstError] = useState(false);
 
   const menuTypeOptions = [
-    { value: "veg", label: "Veg" },
-    { value: "non-veg", label: "Non-Veg" },
-    { value: "regular", label: "Regular" },
-    { value: "additional", label: "Additional" },
+    { value: "Veg", label: "Veg" },
+    { value: "Non-Veg", label: "Non-Veg" },
+    { value: "Regular", label: "Regular" },
+    { value: "Additional", label: "Additional" },
   ];
 
   const dayOptions = [
-    { value: "monday", label: "Monday" },
-    { value: "tuesday", label: "Tuesday" },
-    { value: "wednesday", label: "Wednesday" },
-    { value: "thursday", label: "Thursday" },
-    { value: "friday", label: "Friday" },
-    { value: "saturday", label: "Saturday" },
+    { value: "Monday", label: "Monday" },
+    { value: "Tuesday", label: "Tuesday" },
+    { value: "Wednesday", label: "Wednesday" },
+    { value: "Thursday", label: "Thursday" },
+    { value: "Friday", label: "Friday" },
+    { value: "Saturday", label: "Saturday" },
   ];
 
   const mealTypeOptions = [
-    { value: "breakfast", label: "Breakfast" },
-    { value: "lunch", label: "Lunch" },
-    { value: "dinner", label: "Dinner" }
+    { value: "Breakfast", label: "Breakfast" },
+    { value: "Lunch", label: "Lunch" },
+    { value: "Dinner", label: "Dinner" }
   ];
 
   const handleImageChange = (e) => {

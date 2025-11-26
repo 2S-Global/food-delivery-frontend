@@ -19,9 +19,27 @@ import {
 import EditfieldModal from "./modals/editfield";
 import EditplanModal from "./modals/planmodal";
 import VerifiedlistModal from "./modals/verifiedlistModal";
+import ImagePreviewModal from "./modals/ImagePreviewModal";
 const Companytable = () => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
+
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [previewImages, setPreviewImages] = useState([]);
+
+  const openImageModal = (images) => {
+    setPreviewImages(images);
+    setIsImageModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeImageModal = () => {
+    setIsImageModalOpen(false);
+    setPreviewImages([]);
+    document.body.style.overflow = "auto";
+  };
+
+
 
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
@@ -358,7 +376,23 @@ const Companytable = () => {
                         <td style={{ textAlign: "center" }}>{menu.menuName}</td>
                         <td style={{ textAlign: "center" }}>{menu.menuType}</td>
                         <td style={{ textAlign: "center" }}>{menu.description}</td>
-                        <td style={{ textAlign: "center" }}>{" "}</td>
+                        <td style={{ textAlign: "center" }}>
+                          <Eye
+                            size={20}
+                            style={{ cursor: "pointer", color: "blue" }}
+                            onClick={() => openImageModal(menu?.images ?? [])}
+                          />
+                          {/* <Eye
+                            color="green"
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              router.push(
+                                `/employers-details/${company._id}`
+                              )
+                            }
+                            size={20}
+                          /> */}
+                        </td>
                         <td style={{ textAlign: "center" }}>{menu.dayType}</td>
                         <td style={{ textAlign: "center" }}>{menu.mealType}</td>
                         {/* <td style={{ textAlign: "center" }}>
@@ -543,6 +577,15 @@ const Companytable = () => {
           company={editcompany}
         />
       )}
+
+      {isImageModalOpen && (
+        <ImagePreviewModal
+          show={isImageModalOpen}
+          onClose={closeImageModal}
+          images={previewImages}
+        />
+      )}
+
     </>
   );
 };
