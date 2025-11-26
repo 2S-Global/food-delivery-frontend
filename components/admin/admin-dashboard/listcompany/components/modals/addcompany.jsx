@@ -1,9 +1,15 @@
+"use client";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import MessageComponent from "@/components/common/ResponseMsg";
 import { Eye, EyeOff } from "lucide-react"; // Or any icon library you prefer
 import Select from "react-select";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
+
+// Dynamically import ReactQuill to avoid SSR issues
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const AddCompanyModal = ({ show, onClose, field = {} }) => {
 
@@ -71,8 +77,6 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
   const menuTypeOptions = [
     { value: "Veg", label: "Veg" },
     { value: "Non-Veg", label: "Non-Veg" },
-    { value: "Regular", label: "Regular" },
-    { value: "Additional", label: "Additional" },
   ];
 
   const dayOptions = [
@@ -85,7 +89,6 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
   ];
 
   const mealTypeOptions = [
-    { value: "Breakfast", label: "Breakfast" },
     { value: "Lunch", label: "Lunch" },
     { value: "Dinner", label: "Dinner" }
   ];
@@ -185,7 +188,6 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
     }));
   };
 
-
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     let current = formData.allowed_verifications
@@ -271,7 +273,7 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
         // -------------------------------
         console.log("Calling EDIT API…");
 
-        console.log("Here is my all Form Data: ",formDataToSend);
+        console.log("Here is my all Form Data: ", formDataToSend);
 
         response = await axios.put(
           `${apiurl}/api/userdata/edit-menu/${formData._id}`,
@@ -327,7 +329,7 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
         role="dialog"
         style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
       >
-        <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div className="modal-content">
             {/* Modal Header */}
             <div className="modal-header">
@@ -384,7 +386,23 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                     <label htmlFor="address" className="form-label">
                       Description <span style={{ color: "red" }}>*</span>
                     </label>
-                    <textarea
+                    <ReactQuill
+                      id="description"
+                      name="description"
+                      theme="snow"
+                      value={formData.description}
+                      // ref={jobDescriptionRef}
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
+                      // }
+                      onChange={(content) =>
+                        setFormData((prev) => ({ ...prev, description: content }))
+                      }
+                      placeholder="Write detailed job description here..."
+                      style={{ height: '250px', marginBottom: '40px' }}
+                      className="form-group"
+                    />
+                    {/* <textarea
                       name="description"
                       className="form-control"
                       placeholder="Description"
@@ -392,6 +410,40 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                       value={formData.description}
                       onChange={handleChange}
                       rows={3}
+                    /> */}
+                  </div>
+
+                  {/* Day */}
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="phone_number" className="form-label">
+                      Day
+                    </label>
+                    <Select
+                      options={dayOptions}
+                      value={dayOptions.find(opt => opt.value === formData.dayType)}
+                      onChange={(selected) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          dayType: selected.value,
+                        }))
+                      }
+                    />
+                  </div>
+
+                  {/* Meal Type */}
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="phone_number" className="form-label">
+                      Meal Type
+                    </label>
+                    <Select
+                      options={mealTypeOptions}
+                      value={mealTypeOptions.find(opt => opt.value === formData.mealType)}
+                      onChange={(selected) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          mealType: selected.value,
+                        }))
+                      }
                     />
                   </div>
 
@@ -478,40 +530,6 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                         </button>
                       </div>
                     ))}
-                  </div>
-
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="phone_number" className="form-label">
-                      Day
-                    </label>
-                    <Select
-                      options={dayOptions}
-                      value={dayOptions.find(opt => opt.value === formData.dayType)}
-                      onChange={(selected) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          dayType: selected.value,
-                        }))
-                      }
-                    />
-                  </div>
-
-                  <div className="mb-3 col-md-6">
-                    <label htmlFor="phone_number" className="form-label">
-                      Meal Type
-                    </label>
-                    <Select
-                      options={mealTypeOptions}
-                      value={mealTypeOptions.find(opt => opt.value === formData.mealType)}
-                      onChange={(selected) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          mealType: selected.value,
-                        }))
-                      }
-                    />
-
                   </div>
 
                 </div>
