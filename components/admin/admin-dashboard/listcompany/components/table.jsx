@@ -352,11 +352,11 @@ const Companytable = () => {
                 <thead className="table-light">
                   <tr>
                     <th style={{ textAlign: "center" }}>S/N</th>
+                    <th style={{ textAlign: "center" }}>Image</th>
                     <th style={{ textAlign: "center" }}>Name</th>
                     <th style={{ textAlign: "center" }}>Type</th>
                     <th style={{ textAlign: "center" }} >Description</th>
                     {/*  <th style={{ textAlign: "center" }}>Total Verification</th> */}
-                    <th style={{ textAlign: "center" }}>Image</th>
                     <th style={{ textAlign: "center" }}>Day</th>
                     <th style={{ textAlign: "center" }}>Meal Type</th>
                     <th style={{ textAlign: "center" }}>Action</th>
@@ -392,6 +392,31 @@ const Companytable = () => {
                       return (
                         <tr key={menu._id}>
                           <td style={{ textAlign: "center" }}>{index + 1}</td>
+                          {/* <td style={{ textAlign: "center" }}>
+                            <Eye
+                              size={20}
+                              style={{ cursor: "pointer", color: "blue" }}
+                              onClick={() => openImageModal(menu?.images ?? [])}
+                            />
+                          </td> */}
+                          <td style={{ textAlign: "center" }}>
+                            {menu?.images && menu.images.length > 0 ? (
+                              <img
+                                src={menu.images[0]} // always first image
+                                alt={menu.menuName}
+                                style={{
+                                  width: "50px",       // adjust size as needed
+                                  height: "50px",
+                                  objectFit: "cover",
+                                  cursor: "pointer",
+                                  borderRadius: "4px", // optional, for rounded corners
+                                }}
+                                onClick={() => openImageModal(menu.images ?? [])} // open modal with all images
+                              />
+                            ) : (
+                              <span>No Image</span> // fallback if images array is empty
+                            )}
+                          </td>
                           <td style={{ textAlign: "center" }}>{menu.menuName}</td>
                           <td style={{ textAlign: "center" }}>{menu.menuType}</td>
                           <td
@@ -399,82 +424,8 @@ const Companytable = () => {
                             dangerouslySetInnerHTML={{ __html: cleanDescription }}
                           ></td>
                           {/*  <td style={{ textAlign: "center" }}>{menu.description}</td> */}
-                          <td style={{ textAlign: "center" }}>
-                            <Eye
-                              size={20}
-                              style={{ cursor: "pointer", color: "blue" }}
-                              onClick={() => openImageModal(menu?.images ?? [])}
-                            />
-                            {/* <Eye
-                            color="green"
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              router.push(
-                                `/employers-details/${company._id}`
-                              )
-                            }
-                            size={20}
-                          /> */}
-                          </td>
                           <td style={{ textAlign: "center" }}>{menu.dayType}</td>
                           <td style={{ textAlign: "center" }}>{menu.mealType}</td>
-                          {/* <td style={{ textAlign: "center" }}>
-                          <div className="form-check form-switch d-flex justify-content-center align-items-center">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              role="switch"
-                              id={`switch-${company._id}`}
-                              checked={company.is_active}
-                              onChange={() =>
-                                toggleStatus(company._id, company.is_active)
-                              }
-                            />
-                            <label
-                              className={`form-check-label ms-2 fw-semibold ${
-                                company.is_active
-                                  ? "text-success"
-                                  : "text-danger"
-                              }`}
-                              htmlFor={`switch-${company._id}`}
-                            >
-                              {company.is_active ? "Active" : "Inactive"}
-                            </label>
-                          </div>
-                        </td> */}
-                          {/*  <td
-                          style={{
-                            textAlign: "center",
-                            cursor:
-                              company.orderCount > 0 ? "pointer" : "default",
-                            transition: "background-color 0.3s ease",
-                          }}
-                          onClick={() =>
-                            company.orderCount > 0 && openModalVL(company)
-                          }
-                          onMouseEnter={(e) => {
-                            if (company.orderCount > 0) {
-                              e.target.style.backgroundColor = "#c6f79a"; // Light gray on hover
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.backgroundColor = ""; // Reset to default
-                          }}
-                        >
-                          {company.orderCount > 0 ? company.orderCount : 0}
-                        </td> */}
-                          {/* <td style={{ textAlign: "center" }}>
-                          {new Date(company.createdAt).toLocaleString("en-IN", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-
-                            hour12: true,
-                            timeZone: "Asia/Kolkata",
-                          })}
-                        </td> */}
 
                           <td className="text-center">
                             <div className="d-flex justify-content-center gap-3">
@@ -527,45 +478,6 @@ const Companytable = () => {
                                   }}
                                 />
                               </span>
-
-                              {/* Uncomment and use more icons as needed */}
-                              {/* 
-    <span title="Invitation">
-      <Send
-        size={20}
-        className="text-success"
-        style={{ cursor: "pointer" }}
-        onClick={() => handleInvite(company)}
-      />
-    </span>
-
-    <span title="Signup">
-      <FilePen
-        size={20}
-        className="text-primary"
-        style={{ cursor: "pointer" }}
-        onClick={() => handleSignupemail(company)}
-      />
-    </span>
-
-    <span title="Package">
-      <Mailbox
-        size={20}
-        className="text-info"
-        style={{ cursor: "pointer" }}
-        onClick={() => handleplanmail(company)}
-      />
-    </span>
-
-    <span title="Cart">
-      <ShoppingCart
-        size={20}
-        className="text-info"
-        style={{ cursor: "pointer" }}
-        onClick={() => handlecart(company)}
-      />
-    </span>
-    */}
                             </div>
                           </td>
                         </tr>
@@ -615,6 +527,7 @@ const Companytable = () => {
           show={isImageModalOpen}
           onClose={closeImageModal}
           images={previewImages}
+          data={menus}
         />
       )}
 

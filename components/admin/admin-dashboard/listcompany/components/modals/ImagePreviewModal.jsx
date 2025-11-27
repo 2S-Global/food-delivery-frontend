@@ -1,8 +1,12 @@
 "use client";
 import React from "react";
 
-const ImagePreviewModal = ({ show, onClose, images }) => {
+const ImagePreviewModal = ({ show, onClose, images, data }) => {
   if (!show) return null;
+
+  console.log("Images in Modal:", images);
+  console.log("Name in Modal:", data);
+  // console.log("Description in Modal:", description);
 
   return (
     <div
@@ -15,13 +19,35 @@ const ImagePreviewModal = ({ show, onClose, images }) => {
         <div className="modal-content">
 
           {/* Modal Header */}
-          <div className="modal-header">
+          {/* <div className="modal-header">
             <h5 className="modal-title">Menu Images</h5>
             <button
               type="button"
               className="btn-close"
               onClick={onClose}
               aria-label="Close"
+            ></button>
+          </div> */}
+
+          <div className="modal-header flex-column align-items-start">
+            {/* Menu Name & Description */}
+            {name && description && (
+              <div className="mb-2">
+                <h5 className="modal-title mb-1">{name}</h5>
+                <p className="mb-0" style={{ fontSize: "0.9rem", color: "#555" }} dangerouslySetInnerHTML={{ __html: description }}></p>
+              </div>
+            )}
+
+            {/* Modal Title */}
+            <h6 className="text-muted mt-2">Menu Images</h6>
+
+            {/* Close Button */}
+            <button
+              type="button"
+              className="btn-close"
+              onClick={onClose}
+              aria-label="Close"
+              style={{ position: "absolute", right: "1rem", top: "1rem" }}
             ></button>
           </div>
 
