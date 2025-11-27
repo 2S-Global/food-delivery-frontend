@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 
-const ImagePreviewModal = ({ show, onClose, images, data }) => {
+const ImagePreviewModal = ({ show, onClose, images, name, description }) => {
   if (!show) return null;
 
   console.log("Images in Modal:", images);
-  console.log("Name in Modal:", data);
-  // console.log("Description in Modal:", description);
+  console.log("Name in Modal:", name);
+  console.log("Description in Modal:", description);
 
   return (
     <div
@@ -39,7 +39,7 @@ const ImagePreviewModal = ({ show, onClose, images, data }) => {
             )}
 
             {/* Modal Title */}
-            <h6 className="text-muted mt-2">Menu Images</h6>
+            {/* <h6 className="text-muted mt-2">Menu Images</h6> */}
 
             {/* Close Button */}
             <button

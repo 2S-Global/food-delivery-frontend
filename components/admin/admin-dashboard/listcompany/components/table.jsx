@@ -26,9 +26,13 @@ const Companytable = () => {
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
+  const [modalName, setModalName] = useState([]);
+  const [modalDesc, setModalDesc] = useState([]);
 
-  const openImageModal = (images) => {
+  const openImageModal = (images, name, description) => {
     setPreviewImages(images);
+    setModalName(name);
+    setModalDesc(description);
     setIsImageModalOpen(true);
     document.body.style.overflow = "hidden";
   };
@@ -433,7 +437,7 @@ const Companytable = () => {
                                 <Eye
                                   color="green"
                                   style={{ cursor: "pointer" }}
-                                  onClick={() => openImageModal(menu?.images ?? [])}
+                                  onClick={() => openImageModal(menu?.images ?? [], menu?.menuName ?? [], menu?.description ?? [])}
                                   size={20}
                                 />
                               </span>
@@ -527,7 +531,8 @@ const Companytable = () => {
           show={isImageModalOpen}
           onClose={closeImageModal}
           images={previewImages}
-          data={menus}
+          name={modalName}
+          description={modalDesc}
         />
       )}
 
