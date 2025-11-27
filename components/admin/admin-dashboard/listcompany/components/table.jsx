@@ -26,13 +26,13 @@ const Companytable = () => {
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
-  const [modalName, setModalName] = useState([]);
-  const [modalDesc, setModalDesc] = useState([]);
+  const [allMenuDetails, setAllMenuDetails] = useState([]);
 
-  const openImageModal = (images, name, description) => {
-    setPreviewImages(images);
-    setModalName(name);
-    setModalDesc(description);
+  const openImageModal = (menu) => {
+    setPreviewImages(menu.images || [] );
+    setAllMenuDetails(menu);
+    // setModalName(name);
+    // setModalDesc(description);
     setIsImageModalOpen(true);
     document.body.style.overflow = "hidden";
   };
@@ -359,7 +359,7 @@ const Companytable = () => {
                     <th style={{ textAlign: "center" }}>Image</th>
                     <th style={{ textAlign: "center" }}>Name</th>
                     <th style={{ textAlign: "center" }}>Type</th>
-                    <th style={{ textAlign: "center" }} >Description</th>
+                    {/* <th style={{ textAlign: "center" }} >Description</th> */}
                     {/*  <th style={{ textAlign: "center" }}>Total Verification</th> */}
                     <th style={{ textAlign: "center" }}>Day</th>
                     <th style={{ textAlign: "center" }}>Meal Type</th>
@@ -415,7 +415,7 @@ const Companytable = () => {
                                   cursor: "pointer",
                                   borderRadius: "4px", // optional, for rounded corners
                                 }}
-                                onClick={() => openImageModal(menu.images ?? [])} // open modal with all images
+                                onClick={() => openImageModal(menu ?? [])} // open modal with all images
                               />
                             ) : (
                               <span>No Image</span> // fallback if images array is empty
@@ -423,10 +423,10 @@ const Companytable = () => {
                           </td>
                           <td style={{ textAlign: "center" }}>{menu.menuName}</td>
                           <td style={{ textAlign: "center" }}>{menu.menuType}</td>
-                          <td
+                          {/* <td
                             style={{ textAlign: "center" }}
                             dangerouslySetInnerHTML={{ __html: cleanDescription }}
-                          ></td>
+                          ></td> */}
                           {/*  <td style={{ textAlign: "center" }}>{menu.description}</td> */}
                           <td style={{ textAlign: "center" }}>{menu.dayType}</td>
                           <td style={{ textAlign: "center" }}>{menu.mealType}</td>
@@ -434,10 +434,16 @@ const Companytable = () => {
                           <td className="text-center">
                             <div className="d-flex justify-content-center gap-3">
                               <span title="View Details">
-                                <Eye
+                                {/* <Eye
                                   color="green"
                                   style={{ cursor: "pointer" }}
                                   onClick={() => openImageModal(menu?.images ?? [], menu?.menuName ?? [], menu?.description ?? [])}
+                                  size={20}
+                                /> */}
+                                <Eye
+                                  color="green"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => openImageModal(menu)}
                                   size={20}
                                 />
                               </span>
@@ -531,8 +537,9 @@ const Companytable = () => {
           show={isImageModalOpen}
           onClose={closeImageModal}
           images={previewImages}
-          name={modalName}
-          description={modalDesc}
+          allMenuDetails={allMenuDetails}
+          // name={modalName}
+          // description={modalDesc}
         />
       )}
 

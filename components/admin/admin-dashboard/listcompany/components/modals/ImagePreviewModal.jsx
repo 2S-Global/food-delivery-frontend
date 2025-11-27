@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 
-const ImagePreviewModal = ({ show, onClose, images, name, description }) => {
+const ImagePreviewModal = ({ show, onClose, images, allMenuDetails }) => {
   if (!show) return null;
 
-  console.log("Images in Modal:", images);
-  console.log("Name in Modal:", name);
-  console.log("Description in Modal:", description);
+  // console.log("Images in Modal:", images);
+  // console.log("Name in Modal:", name);
+  console.log("Here is my all data :", allMenuDetails);
 
   return (
     <div
@@ -18,23 +18,40 @@ const ImagePreviewModal = ({ show, onClose, images, name, description }) => {
       <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div className="modal-content">
 
-          {/* Modal Header */}
-          {/* <div className="modal-header">
-            <h5 className="modal-title">Menu Images</h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={onClose}
-              aria-label="Close"
-            ></button>
-          </div> */}
-
           <div className="modal-header flex-column align-items-start">
             {/* Menu Name & Description */}
-            {name && description && (
+            {allMenuDetails && (
               <div className="mb-2">
-                <h5 className="modal-title mb-1">{name}</h5>
-                <p className="mb-0" style={{ fontSize: "0.9rem", color: "#555" }} dangerouslySetInnerHTML={{ __html: description }}></p>
+                <h5 className="modal-title mb-4" style={{ fontSize: "25px" }}>{allMenuDetails.menuName}</h5>
+
+                <div className="" style={{ display: "flex", gap: "60px", marginBottom: "10px" }}>
+                  {/* Type */}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <h6 className="fw-bold mb-1">Type</h6>
+                    <p className="mb-0">{allMenuDetails?.menuType}</p>
+                  </div>
+                  {/* Day */}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <h6 className="fw-bold mb-1">Day</h6>
+                    <p className="mb-0">{allMenuDetails?.dayType}</p>
+                  </div>
+                  {/* Meal Type */}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <h6 className="fw-bold mb-1">Meal Type</h6>
+                    <p className="mb-0">{allMenuDetails?.mealType}</p>
+                  </div>
+                </div>
+
+                {/* Description Title */}
+                <h6 className="fw-bold mb-1">Description</h6>
+
+                {/* Description Value */}
+                <p
+                  className="mb-0"
+                  style={{ fontSize: "0.9rem", color: "#555" }}
+                  dangerouslySetInnerHTML={{ __html: allMenuDetails.description }}
+                ></p>
+
               </div>
             )}
 

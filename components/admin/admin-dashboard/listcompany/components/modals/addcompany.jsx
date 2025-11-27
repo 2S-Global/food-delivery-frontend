@@ -344,7 +344,9 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
           <div className="modal-content">
             {/* Modal Header */}
             <div className="modal-header">
-              <h5 className="modal-title">Add New Menu</h5>
+              <h5 className="modal-title">
+                {formData._id ? "Update Menu" : "Add New Menu"}
+              </h5>
               <button
                 type="button"
                 className="btn-close"
@@ -546,7 +548,12 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                   className="btn btn-primary w-100"
                   disabled={loading || gstError}
                 >
-                  {loading ? "Registering..." : "Register"}
+                  {/* {loading ? "Registering..." : "Register"} */}
+                  {loading ? (
+                    <>{formData._id ? "Updating" : "Registering"}</>
+                  ) : (
+                    <>{formData._id ? "Update" : "Register"}</>
+                  )}
                 </button>
               </form>
             </div>
