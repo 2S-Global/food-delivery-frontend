@@ -354,7 +354,7 @@ const Companytable = () => {
                     <th style={{ textAlign: "center" }}>S/N</th>
                     <th style={{ textAlign: "center" }}>Name</th>
                     <th style={{ textAlign: "center" }}>Type</th>
-                    <th style={{ textAlign: "center" }}>Description</th>
+                    <th style={{ textAlign: "center" }} >Description</th>
                     {/*  <th style={{ textAlign: "center" }}>Total Verification</th> */}
                     <th style={{ textAlign: "center" }}>Image</th>
                     <th style={{ textAlign: "center" }}>Day</th>
@@ -370,19 +370,42 @@ const Companytable = () => {
                       </td>
                     </tr>
                   ) : (
-                    menus.map((menu, index) => (
-                      <tr key={menu._id}>
-                        <td style={{ textAlign: "center" }}>{index + 1}</td>
-                        <td style={{ textAlign: "center" }}>{menu.menuName}</td>
-                        <td style={{ textAlign: "center" }}>{menu.menuType}</td>
-                        <td style={{ textAlign: "center" }}>{menu.description}</td>
-                        <td style={{ textAlign: "center" }}>
-                          <Eye
-                            size={20}
-                            style={{ cursor: "pointer", color: "blue" }}
-                            onClick={() => openImageModal(menu?.images ?? [])}
-                          />
-                          {/* <Eye
+                    menus.map((menu, index) => {
+
+                      const cleanDescription = (() => {
+                        if (!menu.description) return "";
+
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(menu.description, "text/html");
+
+                        // Remove all inline styles
+                        doc.querySelectorAll("*").forEach(el => el.removeAttribute("style"));
+
+                        // Optional: set all text to black
+                        doc.querySelectorAll("*").forEach(el => (el.style.color = "black"));
+
+                        return doc.body.innerHTML;
+                      })();
+
+
+
+                      return (
+                        <tr key={menu._id}>
+                          <td style={{ textAlign: "center" }}>{index + 1}</td>
+                          <td style={{ textAlign: "center" }}>{menu.menuName}</td>
+                          <td style={{ textAlign: "center" }}>{menu.menuType}</td>
+                          <td
+                            style={{ textAlign: "center" }}
+                            dangerouslySetInnerHTML={{ __html: cleanDescription }}
+                          ></td>
+                          {/*  <td style={{ textAlign: "center" }}>{menu.description}</td> */}
+                          <td style={{ textAlign: "center" }}>
+                            <Eye
+                              size={20}
+                              style={{ cursor: "pointer", color: "blue" }}
+                              onClick={() => openImageModal(menu?.images ?? [])}
+                            />
+                            {/* <Eye
                             color="green"
                             style={{ cursor: "pointer" }}
                             onClick={() =>
@@ -392,10 +415,10 @@ const Companytable = () => {
                             }
                             size={20}
                           /> */}
-                        </td>
-                        <td style={{ textAlign: "center" }}>{menu.dayType}</td>
-                        <td style={{ textAlign: "center" }}>{menu.mealType}</td>
-                        {/* <td style={{ textAlign: "center" }}>
+                          </td>
+                          <td style={{ textAlign: "center" }}>{menu.dayType}</td>
+                          <td style={{ textAlign: "center" }}>{menu.mealType}</td>
+                          {/* <td style={{ textAlign: "center" }}>
                           <div className="form-check form-switch d-flex justify-content-center align-items-center">
                             <input
                               className="form-check-input"
@@ -419,7 +442,7 @@ const Companytable = () => {
                             </label>
                           </div>
                         </td> */}
-                        {/*  <td
+                          {/*  <td
                           style={{
                             textAlign: "center",
                             cursor:
@@ -440,7 +463,7 @@ const Companytable = () => {
                         >
                           {company.orderCount > 0 ? company.orderCount : 0}
                         </td> */}
-                        {/* <td style={{ textAlign: "center" }}>
+                          {/* <td style={{ textAlign: "center" }}>
                           {new Date(company.createdAt).toLocaleString("en-IN", {
                             day: "2-digit",
                             month: "2-digit",
@@ -453,31 +476,33 @@ const Companytable = () => {
                           })}
                         </td> */}
 
-                        <td className="text-center">
-                          <div className="d-flex justify-content-center gap-3">
-                            {/* <span title="View Details">
-                              <Eye
-                                color="green"
-                                style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                  router.push(
-                                    `/employers-details/${company._id}`
-                                  )
-                                }
-                                size={20}
-                              />
-                            </span> */}
+                          <td className="text-center">
+                            <div className="d-flex justify-content-center gap-3">
+                              <span title="View Details">
+                                <Eye
+                                  color="green"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => openImageModal(menu?.images ?? [])}
+                                  size={20}
+                                />
+                              </span>
 
-                            <span title="Edit">
-                              <Pencil
-                                className="text-primary"
-                                style={{ cursor: "pointer" }}
-                                // onClick={() => openModalRH(company)}
-                                onClick={() => openModalRH(menu)}
+                              {/* <Eye
                                 size={20}
-                              />
-                            </span>
-                            {/* 
+                                style={{ cursor: "pointer", color: "blue" }}
+                                onClick={() => openImageModal(menu?.images ?? [])}
+                              /> */}
+
+                              <span title="Edit">
+                                <Pencil
+                                  className="text-primary"
+                                  style={{ cursor: "pointer" }}
+                                  // onClick={() => openModalRH(company)}
+                                  onClick={() => openModalRH(menu)}
+                                  size={20}
+                                />
+                              </span>
+                              {/* 
                             <span title="Plan">
                               <PackageOpen
                                 className="text-info"
@@ -487,24 +512,24 @@ const Companytable = () => {
                               />
                             </span> */}
 
-                            <span title="Delete">
-                              <Trash2
-                                size={20}
-                                className="text-danger"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  const confirmDelete = window.confirm(
-                                    "Are you sure you want to delete this company?"
-                                  );
-                                  if (confirmDelete) {
-                                    handleDelete(menu._id);
-                                  }
-                                }}
-                              />
-                            </span>
+                              <span title="Delete">
+                                <Trash2
+                                  size={20}
+                                  className="text-danger"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    const confirmDelete = window.confirm(
+                                      "Are you sure you want to delete this company?"
+                                    );
+                                    if (confirmDelete) {
+                                      handleDelete(menu._id);
+                                    }
+                                  }}
+                                />
+                              </span>
 
-                            {/* Uncomment and use more icons as needed */}
-                            {/* 
+                              {/* Uncomment and use more icons as needed */}
+                              {/* 
     <span title="Invitation">
       <Send
         size={20}
@@ -541,13 +566,20 @@ const Companytable = () => {
       />
     </span>
     */}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </table>
+              <style jsx>{`
+                .forceBlack,
+                .forceBlack * {
+                  color: black !important;
+                }
+              `}</style>
             </div>
           </div>
         </div>
