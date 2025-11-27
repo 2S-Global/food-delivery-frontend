@@ -69,7 +69,8 @@ const ImagePreviewModal = ({ show, onClose, images, allMenuDetails }) => {
                       alt={`menu-${index}`}
                       style={{
                         width: "100%",
-                        height: "120px",
+                        // height: "120px",
+                        height: "190px",
                         objectFit: "cover",
                         borderRadius: "8px",
                         border: "1px solid #ddd",
