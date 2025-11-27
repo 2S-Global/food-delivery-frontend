@@ -13,27 +13,39 @@ module.exports = [
     routePath: "/admin/manage-menu",
     active: "",
   },
-
   {
     id: 3,
-    name: "List Order",
-    icon: "la-file-alt",
-    routePath: "/admin/list-order",
+    name: "Additional Items",
+    icon: "la-wallet",
+    routePath: "/admin/additional-items",
     active: "",
   },
-
+  // {
+  //   id: 4,
+  //   name: "List Order",
+  //   icon: "la-file-alt",
+  //   routePath: "/admin/list-order",
+  //   active: "",
+  // },
   {
-    id: 4,
+    id: 5,
     name: "Manage Delivery Boy",
     icon: "la-id-badge",
     routePath: "/admin/manage-delivery-boy",
     active: "",
   },
   {
-    id: 5,
+    id: 6,
     name: "Manage Customer",
     icon: "la-boxes",
     routePath: "/admin/manage-customer",
+    active: "",
+  },
+  {
+    id: 4,
+    name: "List Order",
+    icon: "la-file-alt",
+    routePath: "/admin/list-order",
     active: "",
   },
 
