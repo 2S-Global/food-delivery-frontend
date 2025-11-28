@@ -29,10 +29,8 @@ const AdditionalItemTable = () => {
   const [allMenuDetails, setAllMenuDetails] = useState([]);
 
   const openImageModal = (menu) => {
-    setPreviewImages(menu.images || [] );
+    setPreviewImages(menu.images || []);
     setAllMenuDetails(menu);
-    // setModalName(name);
-    // setModalDesc(description);
     setIsImageModalOpen(true);
     document.body.style.overflow = "hidden";
   };
@@ -57,7 +55,7 @@ const AdditionalItemTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalplanOpen, setIsModalplanOpen] = useState(false);
   const [isModalvlOpen, setIsModalvlOpen] = useState(false);
-  /*  const  */
+  
   const [message_id, setMessage_id] = useState(null);
   const [errorId, setErrorId] = useState(null);
 
@@ -359,10 +357,6 @@ const AdditionalItemTable = () => {
                     <th style={{ textAlign: "center" }}>Image</th>
                     <th style={{ textAlign: "center" }}>Item Name</th>
                     <th style={{ textAlign: "center" }}>Item Price</th>
-                    {/* <th style={{ textAlign: "center" }} >Description</th> */}
-                    {/*  <th style={{ textAlign: "center" }}>Total Verification</th> */}
-                    {/* <th style={{ textAlign: "center" }}>Day</th> */}
-                    {/* <th style={{ textAlign: "center" }}>Meal Type</th> */}
                     <th style={{ textAlign: "center" }}>Action</th>
                   </tr>
                 </thead>
@@ -396,13 +390,6 @@ const AdditionalItemTable = () => {
                       return (
                         <tr key={menu._id}>
                           <td style={{ textAlign: "center" }}>{index + 1}</td>
-                          {/* <td style={{ textAlign: "center" }}>
-                            <Eye
-                              size={20}
-                              style={{ cursor: "pointer", color: "blue" }}
-                              onClick={() => openImageModal(menu?.images ?? [])}
-                            />
-                          </td> */}
                           <td style={{ textAlign: "center" }}>
                             {menu?.images && menu.images.length > 0 ? (
                               <img
@@ -427,12 +414,6 @@ const AdditionalItemTable = () => {
                           <td className="text-center">
                             <div className="d-flex justify-content-center gap-3">
                               <span title="View Details">
-                                {/* <Eye
-                                  color="green"
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => openImageModal(menu?.images ?? [], menu?.menuName ?? [], menu?.description ?? [])}
-                                  size={20}
-                                /> */}
                                 <Eye
                                   color="green"
                                   style={{ cursor: "pointer" }}
@@ -441,30 +422,14 @@ const AdditionalItemTable = () => {
                                 />
                               </span>
 
-                              {/* <Eye
-                                size={20}
-                                style={{ cursor: "pointer", color: "blue" }}
-                                onClick={() => openImageModal(menu?.images ?? [])}
-                              /> */}
-
                               <span title="Edit">
                                 <Pencil
                                   className="text-primary"
                                   style={{ cursor: "pointer" }}
-                                  // onClick={() => openModalRH(company)}
                                   onClick={() => openModalRH(menu)}
                                   size={20}
                                 />
                               </span>
-                              {/* 
-                            <span title="Plan">
-                              <PackageOpen
-                                className="text-info"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => openModalPlanRH(company)}
-                                size={20}
-                              />
-                            </span> */}
 
                               <span title="Delete">
                                 <Trash2
@@ -504,7 +469,6 @@ const AdditionalItemTable = () => {
         <AddAdditionalItemModal
           show={isModalOpen}
           onClose={closeModalRH}
-          // field={editcompany}
           field={editMenu}
         />
       )}
@@ -531,8 +495,6 @@ const AdditionalItemTable = () => {
           onClose={closeImageModal}
           images={previewImages}
           allMenuDetails={allMenuDetails}
-          // name={modalName}
-          // description={modalDesc}
         />
       )}
 
