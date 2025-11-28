@@ -86,6 +86,7 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
     { value: "Thursday", label: "Thursday" },
     { value: "Friday", label: "Friday" },
     { value: "Saturday", label: "Saturday" },
+    { value: "Sunday", label: "Sunday" },
   ];
 
   const mealTypeOptions = [

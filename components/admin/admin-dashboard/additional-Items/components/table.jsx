@@ -422,7 +422,7 @@ const AdditionalItemTable = () => {
                             )}
                           </td>
                           <td style={{ textAlign: "center" }}>{menu.itemName}</td>
-                          <td style={{ textAlign: "center" }}>{menu.itemPrice}</td>
+                          <td style={{ textAlign: "center" }}>{`${menu.itemPrice} £`}</td>
 
                           <td className="text-center">
                             <div className="d-flex justify-content-center gap-3">
