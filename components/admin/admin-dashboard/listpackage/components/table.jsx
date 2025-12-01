@@ -126,9 +126,10 @@ const Companytable = ({ setRefresh, refresh }) => {
 
             if (response.data.success) {
                 // setCompanies((prev) => prev.filter((company) => company._id !== id));
-                setRefresh(true);
+                setCustomers((prev) => prev.filter((customer) => customer._id !== id));
+                // setRefresh(true);
                 setSuccess(response.data.message);
-                setMessage_id(Date.now());
+                // setMessage_id(Date.now());
             } else {
                 setError(response.data.message);
                 setErrorId(Date.now());
