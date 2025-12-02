@@ -208,6 +208,7 @@ const EditedImagePreviewModal = ({ show, onClose, images = [], allMenuDetails })
                       style={{ fontSize: "24px", fontWeight: 700 }}
                     >
                       {allMenuDetails.menuName}
+                      {allMenuDetails.itemName ? ` ${allMenuDetails.itemName}` : ""}
                     </h5>
 
                     {/* Basic info row */}
