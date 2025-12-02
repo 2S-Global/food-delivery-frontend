@@ -396,6 +396,187 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                     />
                   </div>
 
+                  {/* Item 1 Name */}
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="name" className="form-label">
+                      Item 1 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="menuName"
+                      className="form-control"
+                      placeholder="Menu Name"
+                      required
+                      value={formData.menuName}
+                      onChange={handleChange}
+                    />
+                    {formErrors.name && (
+                      <div className="invalid-feedback">{formErrors.name}</div>
+                    )}
+                  </div>
+
+                  {/* Description for Item 1 */}
+
+                  <div className="mb-3 col-md-12">
+                    <label htmlFor="address" className="form-label">
+                      Description for Item 1 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <ReactQuill
+                      id="description"
+                      name="description"
+                      theme="snow"
+                      value={formData.description}
+                      // ref={jobDescriptionRef}
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
+                      // }
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, description: content }))
+                      // }
+                      onChange={handleDescriptionChange}
+                      placeholder="Write detailed job description here..."
+                      style={{ height: '250px', marginBottom: '40px' }}
+                      className="form-group"
+                    />
+                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
+                  </div>
+
+                  {/* Item 2 Name */}
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="name" className="form-label">
+                      Item 2 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="menuName"
+                      className="form-control"
+                      placeholder="Menu Name"
+                      required
+                      value={formData.menuName}
+                      onChange={handleChange}
+                    />
+                    {formErrors.name && (
+                      <div className="invalid-feedback">{formErrors.name}</div>
+                    )}
+                  </div>
+
+                  {/* Description for Item 1 */}
+
+                  <div className="mb-3 col-md-12">
+                    <label htmlFor="address" className="form-label">
+                      Description for Item 2 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <ReactQuill
+                      id="description"
+                      name="description"
+                      theme="snow"
+                      value={formData.description}
+                      // ref={jobDescriptionRef}
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
+                      // }
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, description: content }))
+                      // }
+                      onChange={handleDescriptionChange}
+                      placeholder="Write detailed job description here..."
+                      style={{ height: '250px', marginBottom: '40px' }}
+                      className="form-group"
+                    />
+                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
+                  </div>
+
+
+                  {/* Item 1 Name */}
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="name" className="form-label">
+                      Item 3 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="menuName"
+                      className="form-control"
+                      placeholder="Menu Name"
+                      required
+                      value={formData.menuName}
+                      onChange={handleChange}
+                    />
+                    {formErrors.name && (
+                      <div className="invalid-feedback">{formErrors.name}</div>
+                    )}
+                  </div>
+
+                  {/* Description for Item 1 */}
+
+                  <div className="mb-3 col-md-12">
+                    <label htmlFor="address" className="form-label">
+                      Description for Item 3 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <ReactQuill
+                      id="description"
+                      name="description"
+                      theme="snow"
+                      value={formData.description}
+                      // ref={jobDescriptionRef}
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
+                      // }
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, description: content }))
+                      // }
+                      onChange={handleDescriptionChange}
+                      placeholder="Write detailed job description here..."
+                      style={{ height: '250px', marginBottom: '40px' }}
+                      className="form-group"
+                    />
+                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
+                  </div>
+
+                  {/* Item 1 Name */}
+                  <div className="mb-3 col-md-6">
+                    <label htmlFor="name" className="form-label">
+                      Item 4 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="menuName"
+                      className="form-control"
+                      placeholder="Menu Name"
+                      required
+                      value={formData.menuName}
+                      onChange={handleChange}
+                    />
+                    {formErrors.name && (
+                      <div className="invalid-feedback">{formErrors.name}</div>
+                    )}
+                  </div>
+
+                  {/* Description for Item 1 */}
+
+                  <div className="mb-3 col-md-12">
+                    <label htmlFor="address" className="form-label">
+                      Description for Item 4 <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <ReactQuill
+                      id="description"
+                      name="description"
+                      theme="snow"
+                      value={formData.description}
+                      // ref={jobDescriptionRef}
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
+                      // }
+                      // onChange={(content) =>
+                      //   setFormData((prev) => ({ ...prev, description: content }))
+                      // }
+                      onChange={handleDescriptionChange}
+                      placeholder="Write detailed job description here..."
+                      style={{ height: '250px', marginBottom: '40px' }}
+                      className="form-group"
+                    />
+                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
+                  </div>
+
                   <div className="mb-3 col-md-12">
                     <label htmlFor="address" className="form-label">
                       Description <span style={{ color: "red" }}>*</span>
@@ -421,6 +602,8 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                   </div>
 
                   {/* Day */}
+
+                  {/*
                   <div className="mb-3 col-md-6">
                     <label htmlFor="phone_number" className="form-label">
                       Day <span style={{ color: "red" }}>*</span>
@@ -435,7 +618,7 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                         }))
                       }
                     />
-                  </div>
+                  </div>  */}
 
                   {/* Meal Type */}
                   <div className="mb-3 col-md-6">
