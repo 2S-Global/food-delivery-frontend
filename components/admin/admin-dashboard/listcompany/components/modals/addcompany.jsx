@@ -17,11 +17,19 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
     _id: field._id || "",
     menuName: field.menuName || "",
     menuType: field.menuType || "",
+    item1: field.item1 || "",
+    description1: field.description1 || "",
+    item2: field.item2 || "",
+    description2: field.description2 || "",
+    item3: field.item3 || "",
+    description3: field.description3 || "",
+    item4: field.item4 || "",
+    description4: field.description4 || "",
     description: field.description || "",
     images: [],
     oldImages: field.images || [],      // existing URLs
     newImages: [],                      // only new files
-    dayType: field.dayType || "",
+    // dayType: field.dayType || "",
     mealType: field.mealType || "",
   });
 
@@ -49,11 +57,19 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
     _id: "",
     menuName: "",
     menuType: "",
+    item1: field.item1 || "",
+    description1: field.description1 || "",
+    item2: field.item2 || "",
+    description2: field.description2 || "",
+    item3: field.item3 || "",
+    description3: field.description3 || "",
+    item4: field.item4 || "",
+    description4: field.description4 || "",
     description: "",
     // images: [],
     oldImages: field.images || [],      // existing URLs
     newImages: [],                      // only new files
-    dayType: "",
+    // dayType: "",
     mealType: "",
   });
 
@@ -200,6 +216,28 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
     }
   };
 
+  const handleEditorChange = (field, content) => {
+    // Save data dynamically
+    setFormData(prev => ({
+      ...prev,
+      [field]: content
+    }));
+
+    // Validation
+    if (!content || content === "<p><br></p>" || content.trim() === "") {
+      setFormErrors(prev => ({
+        ...prev,
+        [field]: `${field} is required`
+      }));
+    } else {
+      setFormErrors(prev => ({
+        ...prev,
+        [field]: ""
+      }));
+    }
+  };
+
+
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     let current = formData.allowed_verifications
@@ -241,6 +279,14 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("dayType", formData.dayType);
       formDataToSend.append("mealType", formData.mealType);
+      formDataToSend.append("item1", formData.item1);
+      formDataToSend.append("description1", formData.description1);
+      formDataToSend.append("item2", formData.item2);
+      formDataToSend.append("description2", formData.description2);
+      formDataToSend.append("item3", formData.item3);
+      formDataToSend.append("description3", formData.description3);
+      formDataToSend.append("item4", formData.item4);
+      formDataToSend.append("description4", formData.description4);
 
       // append images
       // for (let i = 0; i < formData.images.length; i++) {
@@ -399,19 +445,19 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                   {/* Item 1 Name */}
                   <div className="mb-3 col-md-6">
                     <label htmlFor="name" className="form-label">
-                      Item 1 <span style={{ color: "red" }}>*</span>
+                      Item 1
                     </label>
                     <input
                       type="text"
-                      name="menuName"
+                      name="item1"
                       className="form-control"
-                      placeholder="Menu Name"
-                      required
-                      value={formData.menuName}
+                      placeholder="Item 1"
+                      // required
+                      value={formData.item1}
                       onChange={handleChange}
                     />
-                    {formErrors.name && (
-                      <div className="invalid-feedback">{formErrors.name}</div>
+                    {formErrors.item1 && (
+                      <div className="invalid-feedback">{formErrors.item1}</div>
                     )}
                   </div>
 
@@ -419,44 +465,35 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
 
                   <div className="mb-3 col-md-12">
                     <label htmlFor="address" className="form-label">
-                      Description for Item 1 <span style={{ color: "red" }}>*</span>
+                      Description for Item 1
                     </label>
                     <ReactQuill
-                      id="description"
-                      name="description"
+                      id="description1"
+                      name="description1"
                       theme="snow"
-                      value={formData.description}
-                      // ref={jobDescriptionRef}
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
-                      // }
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, description: content }))
-                      // }
-                      onChange={handleDescriptionChange}
+                      value={formData.description1}
+                      onChange={(content) => handleEditorChange("description1", content)}
                       placeholder="Write detailed job description here..."
                       style={{ height: '250px', marginBottom: '40px' }}
                       className="form-group"
                     />
-                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
                   </div>
 
                   {/* Item 2 Name */}
                   <div className="mb-3 col-md-6">
                     <label htmlFor="name" className="form-label">
-                      Item 2 <span style={{ color: "red" }}>*</span>
+                      Item 2
                     </label>
                     <input
                       type="text"
-                      name="menuName"
+                      name="item2"
                       className="form-control"
-                      placeholder="Menu Name"
-                      required
-                      value={formData.menuName}
+                      placeholder="Item 2"
+                      value={formData.item2}
                       onChange={handleChange}
                     />
-                    {formErrors.name && (
-                      <div className="invalid-feedback">{formErrors.name}</div>
+                    {formErrors.item2 && (
+                      <div className="invalid-feedback">{formErrors.item2}</div>
                     )}
                   </div>
 
@@ -464,45 +501,37 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
 
                   <div className="mb-3 col-md-12">
                     <label htmlFor="address" className="form-label">
-                      Description for Item 2 <span style={{ color: "red" }}>*</span>
+                      Description for Item 2
                     </label>
                     <ReactQuill
-                      id="description"
-                      name="description"
+                      id="description2"
+                      name="description2"
                       theme="snow"
-                      value={formData.description}
-                      // ref={jobDescriptionRef}
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
-                      // }
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, description: content }))
-                      // }
-                      onChange={handleDescriptionChange}
+                      value={formData.description2}
+                      onChange={(content) => handleEditorChange("description2", content)}
                       placeholder="Write detailed job description here..."
                       style={{ height: '250px', marginBottom: '40px' }}
                       className="form-group"
                     />
-                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
                   </div>
 
 
                   {/* Item 1 Name */}
                   <div className="mb-3 col-md-6">
                     <label htmlFor="name" className="form-label">
-                      Item 3 <span style={{ color: "red" }}>*</span>
+                      Item 3
                     </label>
                     <input
                       type="text"
-                      name="menuName"
+                      name="item3"
                       className="form-control"
-                      placeholder="Menu Name"
-                      required
-                      value={formData.menuName}
+                      placeholder="Item 3"
+                      // required
+                      value={formData.item3}
                       onChange={handleChange}
                     />
-                    {formErrors.name && (
-                      <div className="invalid-feedback">{formErrors.name}</div>
+                    {formErrors.item3 && (
+                      <div className="invalid-feedback">{formErrors.item3}</div>
                     )}
                   </div>
 
@@ -510,21 +539,14 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
 
                   <div className="mb-3 col-md-12">
                     <label htmlFor="address" className="form-label">
-                      Description for Item 3 <span style={{ color: "red" }}>*</span>
+                      Description for Item 3
                     </label>
                     <ReactQuill
-                      id="description"
-                      name="description"
+                      id="description3"
+                      name="description3"
                       theme="snow"
-                      value={formData.description}
-                      // ref={jobDescriptionRef}
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
-                      // }
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, description: content }))
-                      // }
-                      onChange={handleDescriptionChange}
+                      value={formData.description3}
+                      onChange={(content) => handleEditorChange("description3", content)}
                       placeholder="Write detailed job description here..."
                       style={{ height: '250px', marginBottom: '40px' }}
                       className="form-group"
@@ -535,19 +557,18 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
                   {/* Item 1 Name */}
                   <div className="mb-3 col-md-6">
                     <label htmlFor="name" className="form-label">
-                      Item 4 <span style={{ color: "red" }}>*</span>
+                      Item 4
                     </label>
                     <input
                       type="text"
-                      name="menuName"
+                      name="item4"
                       className="form-control"
-                      placeholder="Menu Name"
-                      required
-                      value={formData.menuName}
+                      placeholder="Item 4"
+                      value={formData.item4}
                       onChange={handleChange}
                     />
-                    {formErrors.name && (
-                      <div className="invalid-feedback">{formErrors.name}</div>
+                    {formErrors.item4 && (
+                      <div className="invalid-feedback">{formErrors.item4}</div>
                     )}
                   </div>
 
@@ -555,26 +576,18 @@ const AddCompanyModal = ({ show, onClose, field = {} }) => {
 
                   <div className="mb-3 col-md-12">
                     <label htmlFor="address" className="form-label">
-                      Description for Item 4 <span style={{ color: "red" }}>*</span>
+                      Description for Item 4
                     </label>
                     <ReactQuill
-                      id="description"
-                      name="description"
+                      id="description4"
+                      name="description4"
                       theme="snow"
-                      value={formData.description}
-                      // ref={jobDescriptionRef}
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, jobDescription: content }))
-                      // }
-                      // onChange={(content) =>
-                      //   setFormData((prev) => ({ ...prev, description: content }))
-                      // }
-                      onChange={handleDescriptionChange}
+                      value={formData.description4}
+                      onChange={(content) => handleEditorChange("description4", content)}
                       placeholder="Write detailed job description here..."
                       style={{ height: '250px', marginBottom: '40px' }}
                       className="form-group"
                     />
-                    {/* {formErrors && <p style={{ color: 'red', marginTop: '50px' }}>{formErrors.description}</p>} */}
                   </div>
 
                   <div className="mb-3 col-md-12">
