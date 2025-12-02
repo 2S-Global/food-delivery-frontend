@@ -7,6 +7,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import DataTable from "react-data-table-component";
 import { Trash2, Pencil, Eye, FileDown } from "lucide-react";
 import ImagePreviewModal from "./modals/ImagePreviewModal";
+import EditedImagePreviewModal from "./modals/EditedImagePreviewModal";
 import AddCompanyModal from "./modals/addcompany";
 // import EditfieldModal from "./modals/editfield";
 // import EditplanModal from "./modals/planmodal";
@@ -528,8 +529,18 @@ const Companytable = ({ setRefresh, refresh }) => {
         </div>
       )}
 
-      {isImageModalOpen && (
+      {/* {isImageModalOpen && (
         <ImagePreviewModal
+          show={isImageModalOpen}
+          onClose={closeImageModal}
+          images={previewImages}
+          allMenuDetails={allMenuDetails}
+        />
+      )} */}
+
+      
+      {isImageModalOpen && (
+        <EditedImagePreviewModal
           show={isImageModalOpen}
           onClose={closeImageModal}
           images={previewImages}
