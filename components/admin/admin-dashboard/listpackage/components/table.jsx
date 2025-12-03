@@ -241,20 +241,6 @@ const Companytable = ({ setRefresh, refresh }) => {
 
     const [searchText, setSearchText] = useState("");
 
-    // 🔎 Filter data based on search text
-    /*
-    const filteredCompanies = useMemo(() => {
-      return companies.filter((company) => {
-        const search = searchText.toLowerCase();
-        return (
-          company.name?.toLowerCase().includes(search) ||
-          company.email?.toLowerCase().includes(search) ||
-          (company.is_active ? "active" : "inactive").includes(search)
-        );
-      });
-    }, [companies, searchText]);  */
-
-
     const filteredDeliveryPartners = useMemo(() => {
         return customers.filter((partner) => {
             const search = searchText.toLowerCase();

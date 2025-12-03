@@ -54,7 +54,7 @@ const Index = () => {
                     <h4>Order List</h4>
 
                     <div style={{ display: "flex", gap: "15px" }}>
-                      <span
+                      {/* <span
                         onClick={openModalRH}
                         style={{
                           cursor: "pointer",
@@ -65,9 +65,9 @@ const Index = () => {
                         }}
                       >
                         Add Order
-                      </span>
+                      </span> */}
 
-                      <span
+                      {/* <span
                         onClick={openCsvModal}
                         style={{
                           cursor: "pointer",
@@ -77,7 +77,7 @@ const Index = () => {
                         }}
                       >
                         Import CSV
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   <Institutetable />
