@@ -105,7 +105,7 @@ const OrderDetailsModal = ({
         >
             <MessageComponent
                 error={error}
-                success={success}
+                // success={success}
                 message_id={message_id}
                 errorId={errorId}
             />
