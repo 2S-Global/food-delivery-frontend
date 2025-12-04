@@ -72,7 +72,7 @@ const OrderDetailsModal = ({
 
             if (response.data.success) {
                 setOrderItems(response.data.data);
-                setSuccess(response.data.message);
+                // setSuccess(response.data.message);
                 setMessage_id(Date.now());
             } else {
                 setError(response.data.message);
@@ -228,8 +228,8 @@ const OrderDetailsModal = ({
                                                             <tr key={index} style={{ fontSize: "13px" }}>
                                                                 <td>{item.item_details || item.menuName || "-"}</td>
                                                                 <td>{item.item_quantity || item.qty || 0}</td>
-                                                                <td>{item.item_price ?? "-"}</td>
-                                                                <td>{item.total_amount ?? "-"}</td>
+                                                                <td>£{item.item_price ?? "-"}</td>
+                                                                <td>£{item.total_amount ?? "-"}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
@@ -248,19 +248,19 @@ const OrderDetailsModal = ({
                                     >
                                         <div>
                                             <strong>Subtotal: </strong>
-                                            {total ?? "-"}
+                                            £{total ?? "-"}
                                         </div>
                                         <div>
                                             <strong>Shipping: </strong>
-                                            {shipping_amount ?? "-"}
+                                            £{shipping_amount ?? "-"}
                                         </div>
                                         <div>
                                             <strong>Tax: </strong>
-                                            {tax ?? "-"}
+                                            £{tax ?? "-"}
                                         </div>
                                         <div>
                                             <strong>Grand Total: </strong>
-                                            {grand_total ?? "-"}
+                                            £{grand_total ?? "-"}
                                         </div>
                                         {paymentMethod && (
                                             <div>

@@ -9,20 +9,11 @@ import { Trash2, Pencil, Eye, FileDown } from "lucide-react";
 import ImagePreviewModal from "./modals/ImagePreviewModal";
 import EditedImagePreviewModal from "./modals/EditedImagePreviewModal";
 import AddCompanyModal from "./modals/addcompany";
-// import EditfieldModal from "./modals/editfield";
-// import EditplanModal from "./modals/planmodal";
-// import VerifiedlistModal from "./modals/verifiedlistModal";
-// import CandidateformModal from "./modals/formmodal";
-// import CircularProgress from "@mui/material/CircularProgress";
-// import { se } from "date-fns/locale/se";
-// import { set } from "date-fns/set";
 
 const Companytable = ({ setRefresh, refresh }) => {
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
   const [loading, setLoading] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [downloadingid, setDownloadingid] = useState(null);
   const [companies, setCompanies] = useState([]);
   // Should remove deliveryPartner
   const [deliveryPartner, setDeliveryPartner] = useState([]);
@@ -123,7 +114,7 @@ const Companytable = ({ setRefresh, refresh }) => {
       if (response.data.success) {
         // setCompanies(response.data.data);
         setMenus(response.data.data);
-        setSuccess(response.data.message);
+        // setSuccess(response.data.message);
         setMessage_id(Date.now());
       } else {
         setError(response.data.message);
@@ -137,44 +128,6 @@ const Companytable = ({ setRefresh, refresh }) => {
     }
   };
 
-  // const handleDelete = async (id) => {
-  //   const token = localStorage.getItem("Super_token");
-  //   if (!token) {
-  //     setError("Token not found. Please log in again.");
-  //     setErrorId(Date.now());
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.delete(
-  //       `${apiurl}/api/userdata/delete-menu`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         params: {
-  //           _id: id,
-  //         }
-  //       }
-  //     );
-
-  //     if (response.data.success) {
-  //       // setCompanies((prev) => prev.filter((company) => company._id !== id));
-  //       setRefresh(true);
-  //       setMenus((prev) => prev.filter((menu) => menu._id !== id));
-  //       setSuccess(response.data.message);
-  //       setMessage_id(Date.now());
-  //     } else {
-  //       setError(response.data.message);
-  //       setErrorId(Date.now());
-  //     }
-  //   } catch (err) {
-  //     setError("Error deleting menu. Please try again.");
-  //     setErrorId(Date.now());
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleDelete = async (id) => {
     setLoading(true);
@@ -198,7 +151,6 @@ const Companytable = ({ setRefresh, refresh }) => {
       );
 
       if (response.data.success) {
-        // setCompanies((prev) => prev.filter((company) => company._id !== id));
         setMenus((prev) => prev.filter((menu) => menu._id !== id));
         setSuccess(response.data.message);
       } else {
@@ -214,10 +166,6 @@ const Companytable = ({ setRefresh, refresh }) => {
   const toggleStatus = async (id, currentStatus) => {
     const token = localStorage.getItem("Super_token");
 
-    // console.log("Token:", token);
-    // console.log("ID:", id);
-    // console.log("Current Status:", currentStatus);
-
     if (!token) {
       setError("Token not found. Please log in again.");
       setErrorId(Date.now());
@@ -229,8 +177,6 @@ const Companytable = ({ setRefresh, refresh }) => {
         `${apiurl}/api/userdata/toggle-status`,
         {
           user_id: id,
-          // status: !currentStatus,
-          // role: 1,
         },
         {
           headers: {
@@ -278,7 +224,6 @@ const Companytable = ({ setRefresh, refresh }) => {
           S/N
         </div>
       ),
-      // selector: (row, index) => index + 1,
       width: "55px",
       sortable: false,
       cell: (row, index) => (
@@ -298,21 +243,21 @@ const Companytable = ({ setRefresh, refresh }) => {
         <div style={{ width: "100%", textAlign: "center" }}>
           {row?.images && row.images.length > 0 ? (
             <img
-              src={row.images[0]} // always first image
+              src={row.images[0]}
               alt={row.menuName}
               style={{
-                width: "50px",       // adjust size as needed
+                width: "50px",
                 height: "50px",
                 objectFit: "cover",
                 cursor: "pointer",
-                borderRadius: "4px", // optional, for rounded corners
-                marginTop: "5px",          // ⭐ add margin top
-                marginBottom: "5px",       // ⭐ add margin bottom
+                borderRadius: "4px",
+                marginTop: "5px",
+                marginBottom: "5px",
               }}
-              onClick={() => openImageModal(row ?? [])} // open modal with all images
+              onClick={() => openImageModal(row ?? [])}
             />
           ) : (
-            <span>No Image</span> // fallback if images array is empty
+            <span>No Image</span>
           )}
         </div>
       ),

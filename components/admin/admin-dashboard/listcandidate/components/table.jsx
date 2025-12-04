@@ -91,7 +91,7 @@ const Companytable = ({ setRefresh, refresh }) => {
       if (response.data.success) {
         // setCompanies(response.data.data);
         setDeliveryPartner(response.data.data);
-        setSuccess(response.data.message);
+        // setSuccess(response.data.message);
         setMessage_id(Date.now());
       } else {
         setError(response.data.message);
@@ -173,7 +173,7 @@ const Companytable = ({ setRefresh, refresh }) => {
             comp._id === id ? { ...comp, is_active: !currentStatus } : comp
           )
         );
-        setSuccess(response.data.message);
+        // setSuccess(response.data.message);
         setMessage_id(Date.now());
       } else {
         setError("Failed to toggle status.");

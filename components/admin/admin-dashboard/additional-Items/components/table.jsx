@@ -122,7 +122,7 @@ const Companytable = ({ setRefresh, refresh }) => {
       if (response.data.success) {
         // setCompanies(response.data.data);
         setMenus(response.data.data);
-        setSuccess(response.data.message);
+        // setSuccess(response.data.message);
         setMessage_id(Date.now());
       } else {
         setError(response.data.message);

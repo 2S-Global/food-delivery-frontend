@@ -73,18 +73,6 @@ const Index = () => {
                       >
                         Add Menu
                       </span>
-
-                      {/* <span
-                        onClick={openCsvModal}
-                        style={{
-                          cursor: "pointer",
-                          color: "#13cfcf",
-                          fontWeight: 500,
-                          fontSize: "16px",
-                        }}
-                      >
-                        Import CSV
-                      </span> */}
                     </div>
                   </div>
                   <Companytable />
