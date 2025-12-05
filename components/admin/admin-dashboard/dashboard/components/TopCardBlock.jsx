@@ -4,10 +4,12 @@ import axios from "axios";
 
 import { useState, useEffect } from "react";
 const TopCardBlock = () => {
-  const [TotalCompany, setTotalcompany] = useState();
-  const [totalPayment, setTotalpayment] = useState();
-  const [TotalCandidate, setTotalCandidate] = useState();
-  const [TotalInstitution, setTotalInstitution] = useState();
+  const [totalMenus, setTotalMenus] = useState();
+  const [totalRevenue, setTotalRevenue] = useState();
+  const [totalOrders, setTotalOrders] = useState();
+  const [totalCustomers, setTotalCustomers] = useState();
+  const [totalDeliveryBoys, setTotalDeliveryBoys] = useState();
+  const [totalAdditionalItems, setTotalAdditionalItems] = useState();
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(true);
@@ -26,16 +28,19 @@ const TopCardBlock = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${apiurl}/api/dashboard/getTotal`, {
+      const response = await axios.get(`${apiurl}/api/order/get-order-summary`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { totalCompany, TotalPayment, totalInstitution, totalCandidate } =response.data;
-      setTotalcompany(totalCompany);
-      setTotalpayment(TotalPayment);
-      setTotalCandidate(totalCandidate);
-      setTotalInstitution(totalInstitution);
+      const { totalMenus, totalRevenue, totalOrders, totalCustomers, totalDeliveryBoys, totalAdditionalItems } =response.data.data;
+
+      setTotalMenus(totalMenus);
+      setTotalRevenue(totalRevenue);
+      setTotalOrders(totalOrders);
+      setTotalCustomers(totalCustomers);
+      setTotalDeliveryBoys(totalDeliveryBoys);
+      setTotalAdditionalItems(totalAdditionalItems);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -43,60 +48,56 @@ const TopCardBlock = () => {
     }
   };
 
-  // const fetchData = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await axios.get(`${apiurl}/api/dashboard/getTotal`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     console.log(response.data);
-
-  //     if (response.data.success) {
-  //       setTotalcompany(response.data.totalUsers);
-  //       setTotalpayment(response.data.totalTransactionAmount);
-  //       setTotalactiveverification(response.data.totalActiveVerification);
-  //       setTotalpendingverification(response.data.totalPendingVerifications);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  //   setLoading(false);
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
   const cardContent = [
     {
       id: 1,
       icon: "la-building", // Better for "Total Company"
-      countNumber: TotalCompany,
-      metaName: "Total Company",
+      countNumber: totalMenus,
+      metaName: " Total Menus",
       uiClass: "ui-green",
     },
     {
       id: 2,
       icon: "la-credit-card", // Better for "Total Payments"
-      countNumber: TotalInstitution,
-      metaName: "Total Institution",
+      countNumber: totalRevenue,
+      metaName: "Total Revenue",
       uiClass: "ui-blue",
     },
     {
       id: 3,
       icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
-      countNumber: TotalCandidate,
-      metaName: "Total Candidate",
+      countNumber: totalOrders,
+      metaName: "Total Orders",
       uiClass: "ui-red",
     },
     {
       id: 4,
-      icon: "la-hourglass-half", // "Pending" feeling for "Pending Verification"
-      countNumber: `₹${Number(totalPayment).toFixed(2).toLocaleString("en-IN")}`,
-      metaName: "Total Payment",
-      uiClass: "ui-yellow",
+      icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
+      countNumber: totalCustomers,
+      metaName: "Total Customers",
+      uiClass: "ui-red",
     },
+    {
+      id: 5,
+      icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
+      countNumber: totalDeliveryBoys,
+      metaName: "Total Delivery Boys",
+      uiClass: "ui-red",
+    },
+    {
+      id: 6,
+      icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
+      countNumber: totalAdditionalItems,
+      metaName: "Total Additional Items",
+      uiClass: "ui-red",
+    },
+    // {
+    //   id: 4,
+    //   icon: "la-hourglass-half", // "Pending" feeling for "Pending Verification"
+    //   countNumber: `₹${Number(totalPayment).toFixed(2).toLocaleString("en-IN")}`,
+    //   metaName: "Total Payment",
+    //   uiClass: "ui-yellow",
+    // },
   ];
 
   return (
