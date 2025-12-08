@@ -96,6 +96,39 @@ const ProfileChart = () => {
   const [chartData2, setChartData2] = useState({ labels: [], datasets: [] });
   const [token, setToken] = useState(null);
 
+  // Added By Chandra Sarkar started -----
+  const [orderStatusBarData, setOrderStatusBarData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const [orderRevenueLineChartData, setOrderRevenueLineChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const [dateWiseRevenueData, setDateWiseRevenueData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const [ordersByDateData, setOrdersByDateData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const [customersGrowthData, setCustomersGrowthData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  const [deliveryPartnersData, setDeliveryPartnersData] = useState({
+    labels: [],
+    datasets: [],
+  });
+  // Added By Chandra Sarkar ended -----
+
+
   const [lineChartData, setLineChartData] = useState({
     labels: [],
     datasets: [],
@@ -107,14 +140,14 @@ const ProfileChart = () => {
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
-useEffect(() => {
-  const storedToken = localStorage.getItem("Super_token");
-  setToken(storedToken);
-}, []);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("Super_token");
+    setToken(storedToken);
+  }, []);
 
   useEffect(() => {
 
-     if (!token) return;
+    if (!token) return;
     const fetchPieChart1 = async () => {
       try {
         const response = await axios.get(
@@ -224,7 +257,7 @@ useEffect(() => {
       try {
         const response = await axios.get(
           `${apiurl}/api/dashboard/getMonthlyCandidateDetails`,
-           {
+          {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -257,19 +290,289 @@ useEffect(() => {
       }
     };
 
-const chartData2 = {
-  labels: ["January", "February", "March", "April", "May"],
-  datasets: [
-    {
-      label: "Total User Statistics",
-      data: [100, 150, 180, 210, 267], // 👈 Static values
-      backgroundColor: "#7490fa",
-      borderColor: "#ff6d01",
-      tension: 0.4,
-    },
-  ],
-};
-setChartData2(chartData2);
+    // Added By Chandra Sarkar started -----
+
+    const fetchOrderStatusBarData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiurl}/api/order/orders-chart-by-status`, // ← your API endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        const data = response.data.data;
+
+        if (response.data.success && Array.isArray(data)) {
+
+          // Convert API result into chart format
+          const labels = data.map(item => item.status);
+          const values = data.map(item => item.orderCount);
+
+          const barData = {
+            labels,
+            datasets: [
+              {
+                label: "Orders by Status",
+                data: values,
+                backgroundColor: [
+                  "#1967d2",
+                  "#34a853",
+                  "#fbbc05",
+                  "#ff6d01",
+                  "#9c27b0",
+                  "#00acc1",
+                ], // Optional: different color for each bar
+                borderWidth: 1,
+              },
+            ],
+          };
+
+          setOrderStatusBarData(barData);
+        }
+      } catch (error) {
+        console.error("Error fetching order status bar chart", error);
+      }
+    };
+
+    const fetchRevenueByStatuslineChartData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiurl}/api/order/revenue-by-status`, // ← your API endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        const data = response.data.data;
+
+        if (response.data.success && Array.isArray(data)) {
+
+          // Convert API result into chart format
+          const labels = data.map(item => item.status);
+          const values = data.map(item => item.totalRevenue);
+
+          const lineData = {
+            labels,
+            datasets: [
+              {
+                label: "Revenue by Status",
+                data: values,
+                borderColor: "#1967d2",
+                backgroundColor: "rgba(25, 103, 210, 0.2)",
+                tension: 0.4,
+                fill: true,
+              },
+            ],
+          };
+
+          setOrderRevenueLineChartData(lineData);
+        }
+      } catch (error) {
+        console.error("Error fetching order status bar chart", error);
+      }
+    };
+
+    const fetchDateWiseRevenueData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiurl}/api/order/revenue-by-date`, // ← your API endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        const data = response.data.data;
+
+        if (response.data.success && Array.isArray(data)) {
+
+          // x-axis labels (dates)
+          const labels = data.map((item) =>
+            new Date(item.date).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+            })
+          ); // e.g. "03 Dec", "05 Dec"
+
+          // y-axis values (revenue)
+          const revenueValues = data.map((item) => item.totalRevenue);
+          // Or: const revenueValues = data.map((item) => item.orderCount);
+
+          const chartData = {
+            labels,
+            datasets: [
+              {
+                label: "Revenue (₹)",
+                data: revenueValues,
+                borderColor: "#1967d2",
+                backgroundColor: "#1967d2",
+                tension: 0.4,
+                fill: false,
+              },
+            ],
+          };
+
+          setDateWiseRevenueData(chartData);
+        }
+      } catch (error) {
+        console.error("Error fetching order status bar chart", error);
+      }
+    };
+
+    const fetchOrdersByDateData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiurl}/api/order/orders-by-date`, // ← your API endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        const data = response.data.data;
+
+        if (response.data.success && Array.isArray(data)) {
+
+          // x-axis labels (dates)
+          const labels = data.map((item) =>
+            new Date(item.date).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+            })
+          ); // e.g. "03 Dec", "05 Dec"
+
+          // y-axis values (revenue)
+          const revenueValues = data.map((item) => item.orderCount);
+          // Or: const revenueValues = data.map((item) => item.orderCount);
+
+          const chartData = {
+            labels,
+            datasets: [
+              {
+                label: "Orders",
+                data: revenueValues,
+                borderColor: "#1967d2",
+                backgroundColor: "#1967d2",
+                tension: 0.4,
+                fill: false,
+              },
+            ],
+          };
+
+          setOrdersByDateData(chartData);
+        }
+      } catch (error) {
+        console.error("Error fetching order status bar chart", error);
+      }
+    };
+
+    const fetchCustomersGrowthData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiurl}/api/order/customers-by-month`, // ← your API endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        const data = response.data.data;
+
+        if (response.data.success && Array.isArray(data)) {
+
+          const pieChart1 = {
+            labels: data.map(item => item.monthName), // e.g. "January 2025"
+            datasets: [
+              {
+                label: "New Customers",
+                data: data.map(item => item.customerCount), // [0,0,0,0,0,0,0,0,0,0,6,0]
+                // optional: colors, Chart.js will also auto-assign if omitted
+                backgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#4BC0C0",
+                  "#9966FF",
+                  "#FF9F40",
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#4BC0C0",
+                  "#9966FF",
+                  "#FF9F40",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          };
+
+          setCustomersGrowthData(pieChart1);
+        }
+      } catch (error) {
+        console.error("Error fetching order status bar chart", error);
+      }
+    };
+
+    const fetchDeliveryPartnersGrowthData = async () => {
+      try {
+        const response = await axios.get(
+          `${apiurl}/api/order/delivery-partners-by-month`, // ← your API endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        const data = response.data.data;
+
+        if (response.data.success && Array.isArray(data)) {
+
+          const pieChart1 = {
+            labels: data.map(item => item.monthName), // e.g. "January 2025"
+            datasets: [
+              {
+                label: "New Delivery Partners",
+                data: data.map(item => item.customerCount), // [0,0,0,0,0,0,0,0,0,0,6,0]
+                // optional: colors, Chart.js will also auto-assign if omitted
+                backgroundColor: [
+                  "#FFE0B2",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#4BC0C0",
+                  "#9966FF",
+                  "#FF9F40",
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56",
+                  "#FFB74D",
+                  "#EC407A",
+                  "#FF9F40",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          };
+
+          setDeliveryPartnersData(pieChart1);
+        }
+      } catch (error) {
+        console.error("Error fetching order status bar chart", error);
+      }
+    };
+
+    // Added By Chandra Sarkar ended -----
+
+
+    const chartData2 = {
+      labels: ["January", "February", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Total User Statistics",
+          data: [100, 150, 180, 210, 267], // 👈 Static values
+          backgroundColor: "#7490fa",
+          borderColor: "#ff6d01",
+          tension: 0.4,
+        },
+      ],
+    };
+    setChartData2(chartData2);
     // Simulate loading
     setTimeout(() => {
       // setChartData(fakeBarChartData);
@@ -280,13 +583,19 @@ setChartData2(chartData2);
 
     const fetchAll = async () => {
       try {
-          
+
 
         await Promise.allSettled([
-          fetchPieChart1(),
-          fetchPieChart2(),
-          fetchLinechartData(),
-       
+          // fetchPieChart1(),
+          // fetchPieChart2(),
+          // fetchLinechartData(),
+          fetchOrderStatusBarData(),
+          fetchRevenueByStatuslineChartData(),
+          fetchDateWiseRevenueData(),
+          fetchOrdersByDateData(),
+          fetchCustomersGrowthData(),
+          fetchDeliveryPartnersGrowthData(),
+
         ]);
       } catch (error) {
         console.error("Error fetching one or more chart data:", error);
@@ -334,78 +643,81 @@ setChartData2(chartData2);
         <div className="row space-y-10">
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> Payments History</h4>
+              <h4> Orders By Status </h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
               ) : (
-                <Bar options={options} data={barChart1} />
+                <Bar options={options} data={orderStatusBarData} />
+
               )}
             </div>
           </div>
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> Payments from Company</h4>
+              <h4> Revenue from Status</h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
               ) : (
-                <Line options={options} data={lineChartData} />
+                <Line options={options} data={orderRevenueLineChartData} />
               )}
             </div>
           </div>
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> Payments from Institute</h4>
+              <h4> Revenue By Date</h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
+              ) : dateWiseRevenueData.labels.length === 0 ? (
+                <p>No data available</p>
               ) : (
-                <Line options={options} data={lineChartData} />
+                <Line options={options} data={dateWiseRevenueData} />
               )}
             </div>
           </div>
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> Payments from Candidate</h4>
+              <h4> Orders By Date</h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
               ) : (
-                <Line options={options} data={lineChartData} />
+                <Line options={options} data={ordersByDateData} />
               )}
             </div>
           </div>
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> User In Company</h4>
+              <h4> Customers Joined </h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
               ) : (
-                <Pie data={pieChart1} options={optionsPie} />
+                <Pie data={customersGrowthData} options={optionsPie} />
               )}
             </div>
           </div>
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> User In Institute </h4>
+              <h4> Delivery Partner Joined </h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
               ) : (
-                <Pie data={pieChart2} options={optionsPie} />
+                <Pie data={deliveryPartnersData} options={optionsPie} />
               )}
             </div>
           </div>
