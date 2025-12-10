@@ -722,7 +722,9 @@ const ProfileChart = () => {
             </div>
           </div>
 
-          <div className="tabs-box col-md-6">
+          {/* Candidate Statistics */}
+
+          {/* <div className="tabs-box col-md-6">
             <div className="widget-title">
               <h4> Candidate Statistics</h4>
             </div>
@@ -733,9 +735,12 @@ const ProfileChart = () => {
                 <Line options={options} data={chartData} />
               )}
             </div>
-          </div>
+          </div> */}
 
-          <div className="tabs-box col-md-6">
+
+          {/* Verification Statistics */}
+
+          {/* <div className="tabs-box col-md-6">
             <div className="widget-title">
               <h4>Verification Statistics</h4>
             </div>
@@ -746,7 +751,8 @@ const ProfileChart = () => {
                 <Line options={options} data={chartData2} />
               )}
             </div>
-          </div>
+          </div> */}
+
         </div>
       )}
     </>
