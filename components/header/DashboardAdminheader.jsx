@@ -38,13 +38,13 @@ const DashboardHeader = () => {
             <div className="logo-box">
               <div className="logo">
                 {/*  <Link href="/"> */}
-                <Image
+                {/* <Image
                   alt="brand"
                   src="/images/Logo3.png"
                   width={154}
                   height={50}
                   priority
-                />
+                /> */}
                 {/*  </Link> */}
               </div>
             </div>

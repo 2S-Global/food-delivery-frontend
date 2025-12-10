@@ -59,7 +59,8 @@ const TopCardBlock = () => {
     {
       id: 2,
       icon: "la-credit-card", // Better for "Total Payments"
-      countNumber: totalRevenue,
+      // countNumber: totalRevenue,
+      countNumber: `£${Number(totalRevenue).toFixed(2).toLocaleString("en-IN")}`,
       metaName: "Total Revenue",
       uiClass: "ui-blue",
     },
@@ -104,14 +105,14 @@ const TopCardBlock = () => {
     <>
       {cardContent.map((item) => (
         <div
-          className="ui-block col-xl-3 col-lg-6 col-md-6 col-sm-12"
+          className="ui-block col-xl-4 col-lg-6 col-md-6 col-sm-12"
           key={item.id}
         >
-          <div className={`ui-item ${item.uiClass}`}>
+          <div className={`ui-item ${item.uiClass}`} style={{ gap: "20px",}}>
             <div className="left">
               <i
                 className={`icon la ${item.icon}`}
-                style={{ height: "37px", width: "31px", lineHeight: "25px" }}
+                style={{ height: "37px", width: "31px", lineHeight: "25px", }}
               ></i>
             </div>
             <div className="right">
