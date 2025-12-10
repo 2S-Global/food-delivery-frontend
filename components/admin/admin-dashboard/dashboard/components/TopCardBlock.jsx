@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import axios from "axios";
+import Link from "next/link";
 
 import { useState, useEffect } from "react";
 const TopCardBlock = () => {
@@ -22,7 +23,7 @@ const TopCardBlock = () => {
 
     fetchData();
 
- 
+
   }, []);
 
   const fetchData = async () => {
@@ -33,7 +34,7 @@ const TopCardBlock = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { totalMenus, totalRevenue, totalOrders, totalCustomers, totalDeliveryBoys, totalAdditionalItems } =response.data.data;
+      const { totalMenus, totalRevenue, totalOrders, totalCustomers, totalDeliveryBoys, totalAdditionalItems } = response.data.data;
 
       setTotalMenus(totalMenus);
       setTotalRevenue(totalRevenue);
@@ -55,6 +56,7 @@ const TopCardBlock = () => {
       countNumber: totalMenus,
       metaName: " Total Menus",
       uiClass: "ui-green",
+      pageUrl: "/admin/manage-menu",
     },
     {
       id: 2,
@@ -63,6 +65,7 @@ const TopCardBlock = () => {
       countNumber: `£${Number(totalRevenue).toFixed(2).toLocaleString("en-IN")}`,
       metaName: "Total Revenue",
       uiClass: "ui-blue",
+      pageUrl: "/admin/list-order",
     },
     {
       id: 3,
@@ -70,6 +73,7 @@ const TopCardBlock = () => {
       countNumber: totalOrders,
       metaName: "Total Orders",
       uiClass: "ui-red",
+      pageUrl: "/admin/list-order",
     },
     {
       id: 4,
@@ -77,6 +81,7 @@ const TopCardBlock = () => {
       countNumber: totalCustomers,
       metaName: "Total Customers",
       uiClass: "ui-red",
+      pageUrl: "/admin/manage-customer",
     },
     {
       id: 5,
@@ -84,6 +89,7 @@ const TopCardBlock = () => {
       countNumber: totalDeliveryBoys,
       metaName: "Total Delivery Boys",
       uiClass: "ui-red",
+      pageUrl: "/admin/manage-delivery-boy",
     },
     {
       id: 6,
@@ -91,6 +97,7 @@ const TopCardBlock = () => {
       countNumber: totalAdditionalItems,
       metaName: "Total Additional Items",
       uiClass: "ui-red",
+      pageUrl: "/admin/additional-items",
     },
     // {
     //   id: 4,
@@ -108,24 +115,26 @@ const TopCardBlock = () => {
           className="ui-block col-xl-4 col-lg-6 col-md-6 col-sm-12"
           key={item.id}
         >
-          <div className={`ui-item ${item.uiClass}`} style={{ gap: "20px",}}>
-            <div className="left">
-              <i
-                className={`icon la ${item.icon}`}
-                style={{ height: "37px", width: "31px", lineHeight: "25px", }}
-              ></i>
+          <Link href={item.pageUrl} style={{ textDecoration: "none" }}>
+            <div className={`ui-item ${item.uiClass}`} style={{ gap: "20px", }}>
+              <div className="left">
+                <i
+                  className={`icon la ${item.icon}`}
+                  style={{ height: "37px", width: "31px", lineHeight: "25px", }}
+                ></i>
+              </div>
+              <div className="right">
+                <h4>
+                  {(item.metaName === "Total Payments" ||
+                    item.metaName === "Wallet Balance") && (
+                      <span>&#8377;&nbsp;</span>
+                    )}
+                  {item.countNumber}
+                </h4>
+                <p>{item.metaName}</p>
+              </div>
             </div>
-            <div className="right">
-              <h4>
-                {(item.metaName === "Total Payments" ||
-                  item.metaName === "Wallet Balance") && (
-                  <span>&#8377;&nbsp;</span>
-                )}
-                {item.countNumber}
-              </h4>
-              <p>{item.metaName}</p>
-            </div>
-          </div>
+          </Link>
         </div>
       ))}
     </>

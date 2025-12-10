@@ -43,6 +43,23 @@ const options = {
   },
 };
 
+
+const optionsOrderCount = {
+  responsive: true,
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        stepSize: 1,
+        callback: function (value) {
+          return Number(value.toFixed(0));
+        },
+      },
+    },
+  },
+};
+
+
 const optionsPie = {
   responsive: true,
   plugins: {
@@ -402,7 +419,7 @@ const ProfileChart = () => {
             labels,
             datasets: [
               {
-                label: "Revenue (₹)",
+                label: "Revenue ( £ )",
                 data: revenueValues,
                 borderColor: "#1967d2",
                 backgroundColor: "#1967d2",
@@ -670,7 +687,7 @@ const ProfileChart = () => {
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> Revenue By Date</h4>
+              <h4> Revenue By Date - Last 7 days</h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
@@ -685,13 +702,13 @@ const ProfileChart = () => {
 
           <div className="tabs-box col-md-6">
             <div className="widget-title">
-              <h4> Orders By Date</h4>
+              <h4> Orders By Date - Last 7 days</h4>
             </div>
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
               ) : (
-                <Line options={options} data={ordersByDateData} />
+                <Line options={optionsOrderCount} data={ordersByDateData} />
               )}
             </div>
           </div>
