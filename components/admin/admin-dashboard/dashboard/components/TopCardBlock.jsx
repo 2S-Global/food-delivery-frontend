@@ -116,7 +116,7 @@ const TopCardBlock = () => {
           key={item.id}
         >
           <Link href={item.pageUrl} style={{ textDecoration: "none" }}>
-            <div className={`ui-item ${item.uiClass}`} style={{ gap: "20px", }}>
+            <div className={`ui-item ${item.uiClass}`} style={{ gap: "20px", padding: "15px" }}>
               <div className="left">
                 <i
                   className={`icon la ${item.icon}`}
