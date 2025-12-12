@@ -217,6 +217,7 @@ const OrderDetailsModal = ({
                                                 <table className="table table-sm mb-0">
                                                     <thead>
                                                         <tr style={{ fontSize: "13px" }}>
+                                                            <th style={{ width: 90 }}>Image</th>
                                                             <th>Item</th>
                                                             <th>Qty</th>
                                                             <th>Price</th>
@@ -226,6 +227,47 @@ const OrderDetailsModal = ({
                                                     <tbody>
                                                         {orderItems.map((item, index) => (
                                                             <tr key={index} style={{ fontSize: "13px" }}>
+                                                                {/* <td>
+                                                                    <img
+                                                                        // src={item.item_image}
+                                                                        src={item.item_image}
+                                                                        alt="No Image"
+                                                                        loading="lazy"
+                                                                        width={64}
+                                                                        height={64}
+                                                                        style={{ objectFit: "cover", borderRadius: 6 }}
+                                                                        onError={(e) => { e.currentTarget.src = "/placeholder.png"; }} // fallback if URL broken
+                                                                    />
+                                                                </td> */}
+                                                                <td>
+                                                                    {item.item_image ? (
+                                                                        <img
+                                                                            src={item.item_image}
+                                                                            // alt={altText}
+                                                                            loading="lazy"
+                                                                            width={64}
+                                                                            height={64}
+                                                                            style={{ objectFit: "cover", borderRadius: 6 }}
+                                                                        />
+                                                                    ) : (
+                                                                        <span
+                                                                            style={{
+                                                                                display: "inline-flex",
+                                                                                width: "64px",
+                                                                                height: "64px",
+                                                                                alignItems: "center",
+                                                                                justifyContent: "center",
+                                                                                background: "#f0f0f0",
+                                                                                borderRadius: "6px",
+                                                                                fontSize: "11px",
+                                                                                color: "#777",
+                                                                                border: "1px solid #e0e0e0",
+                                                                            }}
+                                                                        >
+                                                                            No Image
+                                                                        </span>
+                                                                    )}
+                                                                </td>
                                                                 <td>{item.item_details || item.menuName || "-"}</td>
                                                                 <td>{item.item_quantity || item.qty || 0}</td>
                                                                 <td>£{item.item_price ?? "-"}</td>

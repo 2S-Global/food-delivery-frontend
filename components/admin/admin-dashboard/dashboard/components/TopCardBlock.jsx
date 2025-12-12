@@ -64,7 +64,7 @@ const TopCardBlock = () => {
       // countNumber: totalRevenue,
       countNumber: `£${Number(totalRevenue).toFixed(2).toLocaleString("en-IN")}`,
       metaName: "Total Revenue",
-      uiClass: "ui-blue",
+      uiClass: "ui-purple",
       pageUrl: "/admin/list-order",
     },
     {
@@ -77,26 +77,26 @@ const TopCardBlock = () => {
     },
     {
       id: 4,
-      icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
+      icon: "la-users", // "File/Document" type icon for "Active Verification"
       countNumber: totalCustomers,
       metaName: "Total Customers",
-      uiClass: "ui-red",
+      uiClass: "ui-yellow",
       pageUrl: "/admin/manage-customer",
     },
     {
       id: 5,
-      icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
+      icon: "la-motorcycle", // "File/Document" type icon for "Active Verification"
       countNumber: totalDeliveryBoys,
       metaName: "Total Delivery Boys",
-      uiClass: "ui-red",
+      uiClass: "ui-sky",
       pageUrl: "/admin/manage-delivery-boy",
     },
     {
       id: 6,
-      icon: "la-file-alt", // "File/Document" type icon for "Active Verification"
+      icon: "la-plus-circle", // "File/Document" type icon for "Active Verification"
       countNumber: totalAdditionalItems,
       metaName: "Total Additional Items",
-      uiClass: "ui-red",
+      uiClass: "ui-green",
       pageUrl: "/admin/additional-items",
     },
     // {

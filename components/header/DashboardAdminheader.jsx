@@ -8,6 +8,7 @@ import employerMenuData from "../../data/adminHeadermenuData";
 import { isActiveLink } from "../../utils/linkActiveChecker";
 import { usePathname } from "next/navigation";
 import { color } from "framer-motion";
+import { border } from "@mui/system";
 
 const DashboardHeader = () => {
   const [navbar, setNavbar] = useState(true);
@@ -29,6 +30,7 @@ const DashboardHeader = () => {
     // <!-- Main Header-->
     <header
       className={`main-header header-shaddow  ${navbar ? "fixed-header " : ""}`}
+      style={{height: "70px"}}
     >
       <div className="container-fluid">
         {/* <!-- Main box --> */}
@@ -105,6 +107,7 @@ const DashboardHeader = () => {
                   src="/images/resource/company-6.png"
                   width={50}
                   height={50}
+                  style={{ marginTop: "8px" }}
                 />
                 <span className="name">My Account</span>
               </a>
