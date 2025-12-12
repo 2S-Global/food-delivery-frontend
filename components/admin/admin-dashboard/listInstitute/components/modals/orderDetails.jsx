@@ -109,7 +109,7 @@ const OrderDetailsModal = ({
                 message_id={message_id}
                 errorId={errorId}
             />
-            <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div className="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div className="modal-content" style={{ overflow: "hidden" }}>
                     {/* HEADER */}
                     <div className="modal-header border-0 p-2">
