@@ -7,6 +7,7 @@ import MessageComponent from "@/components/common/ResponseMsg";
 import DataTable from "react-data-table-component";
 import { Trash2, Pencil, Eye, FileDown } from "lucide-react";
 import OrderDetailsModal from "./modals/orderDetails";
+import StatusBadge from "./StatusBadge";
 // import EditfieldModal from "./modals/editfield";
 // import EditplanModal from "./modals/planmodal";
 // import VerifiedlistModal from "./modals/verifiedlistModal";
@@ -16,6 +17,10 @@ import { se } from "date-fns/locale/se";
 import { set } from "date-fns/set";
 
 const Ordertable = ({ setRefresh, refresh }) => {
+
+
+    console.log("This is my Status Badge: ", StatusBadge);
+
     const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
     const [loading, setLoading] = useState(false);
@@ -275,7 +280,8 @@ const Ordertable = ({ setRefresh, refresh }) => {
             width: "150px",
             cell: (row) => (
                 <div style={{ width: "100%", textAlign: "center" }}>
-                    {row.status}
+                    {/* {row.status} */}
+                    <StatusBadge status={row.status} />
                 </div>
             )
         },
@@ -318,6 +324,7 @@ const Ordertable = ({ setRefresh, refresh }) => {
             ),
         },
     ];
+
 
     return (
         <>
@@ -443,8 +450,8 @@ const Ordertable = ({ setRefresh, refresh }) => {
                     show={isOrderDetailsModalOpen}
                     onClose={closeOrderDetailsModal}
                     order={allOrderDetails}
-                    // images={previewImages}
-                    // allMenuDetails={allMenuDetails}
+                // images={previewImages}
+                // allMenuDetails={allMenuDetails}
                 />
             )}
 
