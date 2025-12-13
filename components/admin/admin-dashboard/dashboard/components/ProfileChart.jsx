@@ -106,11 +106,6 @@ const fakeCandidateChartData = {
 
 const ProfileChart = () => {
   const [loading, setLoading] = useState(true);
-  const [pieChart1, setPieChart1] = useState({ labels: [], datasets: [] });
-  const [pieChart2, setPieChart2] = useState({ labels: [], datasets: [] });
-
-  const [chartData, setChartData] = useState({ labels: [], datasets: [] });
-  const [chartData2, setChartData2] = useState({ labels: [], datasets: [] });
   const [token, setToken] = useState(null);
 
   // Added By Chandra Sarkar started -----
@@ -144,16 +139,6 @@ const ProfileChart = () => {
     datasets: [],
   });
   // Added By Chandra Sarkar ended -----
-
-
-  const [lineChartData, setLineChartData] = useState({
-    labels: [],
-    datasets: [],
-  });
-  const [candidateChartData, setCandidateChartData] = useState({
-    labels: [],
-    datasets: [],
-  });
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -576,28 +561,6 @@ const ProfileChart = () => {
 
     // Added By Chandra Sarkar ended -----
 
-
-    const chartData2 = {
-      labels: ["January", "February", "March", "April", "May"],
-      datasets: [
-        {
-          label: "Total User Statistics",
-          data: [100, 150, 180, 210, 267], // 👈 Static values
-          backgroundColor: "#7490fa",
-          borderColor: "#ff6d01",
-          tension: 0.4,
-        },
-      ],
-    };
-    setChartData2(chartData2);
-    // Simulate loading
-    setTimeout(() => {
-      // setChartData(fakeBarChartData);
-      setLineChartData(fakeLineChartData);
-      setCandidateChartData(fakeCandidateChartData);
-      // setLoading(false);
-    }, 500);
-
     const fetchAll = async () => {
       try {
 
@@ -623,27 +586,6 @@ const ProfileChart = () => {
 
     fetchAll();
   }, [token]);
-
-  const barChart1 = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        label: "Company",
-        data: [12000, 15000, 14000, 16000, 17000],
-        backgroundColor: "rgba(0, 102, 204, 0.85)", // Deep Blue
-      },
-      {
-        label: "Institute",
-        data: [10000, 13000, 12500, 13500, 35000],
-        backgroundColor: "rgba(204, 153, 0, 0.85)", // Deep Yellow-Gold
-      },
-      {
-        label: "Candidate",
-        data: [8000, 9000, 9500, 10000, 11000],
-        backgroundColor: "rgba(0, 153, 102, 0.85)", // Deep Teal-Green
-      },
-    ],
-  };
 
   return (
     <>
@@ -738,37 +680,6 @@ const ProfileChart = () => {
               )}
             </div>
           </div>
-
-          {/* Candidate Statistics */}
-
-          {/* <div className="tabs-box col-md-6">
-            <div className="widget-title">
-              <h4> Candidate Statistics</h4>
-            </div>
-            <div className="widget-content space-y-6">
-              {loading ? (
-                <p>Loading chart...</p>
-              ) : (
-                <Line options={options} data={chartData} />
-              )}
-            </div>
-          </div> */}
-
-
-          {/* Verification Statistics */}
-
-          {/* <div className="tabs-box col-md-6">
-            <div className="widget-title">
-              <h4>Verification Statistics</h4>
-            </div>
-            <div className="widget-content space-y-6">
-              {loading ? (
-                <p>Loading chart...</p>
-              ) : (
-                <Line options={options} data={chartData2} />
-              )}
-            </div>
-          </div> */}
 
         </div>
       )}
