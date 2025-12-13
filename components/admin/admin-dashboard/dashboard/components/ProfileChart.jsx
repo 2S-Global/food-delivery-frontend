@@ -108,6 +108,10 @@ const ProfileChart = () => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
 
+  const TOTAL_CHARTS = 6;
+  const [chartsReadyCount, setChartsReadyCount] = useState(0);
+
+
   // Added By Chandra Sarkar started -----
   const [orderStatusBarData, setOrderStatusBarData] = useState({
     labels: [],
@@ -331,6 +335,7 @@ const ProfileChart = () => {
           };
 
           setOrderStatusBarData(barData);
+          setChartsReadyCount(prev => prev + 1);
         }
       } catch (error) {
         console.error("Error fetching order status bar chart", error);
@@ -369,6 +374,7 @@ const ProfileChart = () => {
           };
 
           setOrderRevenueLineChartData(lineData);
+          setChartsReadyCount(prev => prev + 1);
         }
       } catch (error) {
         console.error("Error fetching order status bar chart", error);
@@ -415,6 +421,7 @@ const ProfileChart = () => {
           };
 
           setDateWiseRevenueData(chartData);
+          setChartsReadyCount(prev => prev + 1);
         }
       } catch (error) {
         console.error("Error fetching order status bar chart", error);
@@ -461,6 +468,7 @@ const ProfileChart = () => {
           };
 
           setOrdersByDateData(chartData);
+          setChartsReadyCount(prev => prev + 1);
         }
       } catch (error) {
         console.error("Error fetching order status bar chart", error);
@@ -507,6 +515,7 @@ const ProfileChart = () => {
           };
 
           setCustomersGrowthData(pieChart1);
+          setChartsReadyCount(prev => prev + 1);
         }
       } catch (error) {
         console.error("Error fetching order status bar chart", error);
@@ -553,6 +562,7 @@ const ProfileChart = () => {
           };
 
           setDeliveryPartnersData(pieChart1);
+          setChartsReadyCount(prev => prev + 1);
         }
       } catch (error) {
         console.error("Error fetching order status bar chart", error);
@@ -580,12 +590,20 @@ const ProfileChart = () => {
       } catch (error) {
         console.error("Error fetching one or more chart data:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchAll();
   }, [token]);
+
+
+  useEffect(() => {
+    if (chartsReadyCount === TOTAL_CHARTS) {
+      setLoading(false);
+    }
+  }, [chartsReadyCount]);
+
 
   return (
     <>
