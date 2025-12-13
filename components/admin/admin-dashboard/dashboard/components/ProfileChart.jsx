@@ -607,6 +607,12 @@ const ProfileChart = () => {
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
+              ) : !orderStatusBarData ||
+                !orderStatusBarData.labels ||
+                orderStatusBarData.labels.length === 0 ||
+                !orderStatusBarData.datasets ||
+                orderStatusBarData.datasets.length === 0 ? (
+                <p>No data available</p>
               ) : (
                 <Bar options={options} data={orderStatusBarData} />
 
@@ -621,6 +627,12 @@ const ProfileChart = () => {
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
+              ) : !orderRevenueLineChartData ||
+                !orderRevenueLineChartData.labels ||
+                orderRevenueLineChartData.labels.length === 0 ||
+                !orderRevenueLineChartData.datasets ||
+                orderRevenueLineChartData.datasets.length === 0 ? (
+                <p>No data available</p>
               ) : (
                 <Line options={options} data={orderRevenueLineChartData} />
               )}
@@ -649,6 +661,12 @@ const ProfileChart = () => {
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
+              ) : !ordersByDateData ||
+                !ordersByDateData.labels ||
+                ordersByDateData.labels.length === 0 ||
+                !ordersByDateData.datasets ||
+                ordersByDateData.datasets.length === 0 ? (
+                <p>No data available</p>
               ) : (
                 <Line options={optionsOrderCount} data={ordersByDateData} />
               )}
@@ -662,6 +680,12 @@ const ProfileChart = () => {
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
+              ) : !customersGrowthData ||
+                !customersGrowthData.labels ||
+                customersGrowthData.labels.length === 0 ||
+                !customersGrowthData.datasets ||
+                customersGrowthData.datasets.length === 0 ? (
+                <p>No data available</p>
               ) : (
                 <Pie data={customersGrowthData} options={optionsPie} />
               )}
@@ -675,6 +699,12 @@ const ProfileChart = () => {
             <div className="widget-content space-y-6">
               {loading ? (
                 <p>Loading chart...</p>
+              ) : !deliveryPartnersData ||
+                !deliveryPartnersData.labels ||
+                deliveryPartnersData.labels.length === 0 ||
+                !deliveryPartnersData.datasets ||
+                deliveryPartnersData.datasets.length === 0 ? (
+                <p>No data available</p>
               ) : (
                 <Pie data={deliveryPartnersData} options={optionsPie} />
               )}
