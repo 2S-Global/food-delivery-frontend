@@ -213,7 +213,7 @@ const OrderDetailsModal = ({
                                             <h6 className="fw-bold mb-2" style={{ fontSize: "14px" }}>
                                                 Items
                                             </h6>
-                                            <div className="table-responsive mb-3">
+                                            <div className="mb-3">
                                                 <table className="table table-sm mb-0">
                                                     <thead>
                                                         <tr style={{ fontSize: "13px" }}>
