@@ -48,13 +48,6 @@ module.exports = [
     routePath: "/admin/list-order",
     active: "",
   },
-  {
-    id: 5,
-    name: "Survey List",
-    icon: "la-file-alt",
-    routePath: "/admin/survery-list",
-    active: "",
-  },
 
   // {
   //   id: 6,
