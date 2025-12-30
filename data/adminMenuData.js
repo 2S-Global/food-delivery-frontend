@@ -20,13 +20,13 @@ module.exports = [
     routePath: "/admin/additional-items",
     active: "",
   },
-  // {
-  //   id: 4,
-  //   name: "List Order",
-  //   icon: "la-file-alt",
-  //   routePath: "/admin/list-order",
-  //   active: "",
-  // },
+  {
+    id: 4,
+    name: "Manage Blog",
+    icon: "la-file-alt",
+    routePath: "/admin/manage-blog",
+    active: "",
+  },
   {
     id: 5,
     name: "Manage Delivery Boy",
@@ -42,7 +42,7 @@ module.exports = [
     active: "",
   },
   {
-    id: 4,
+    id: 7,
     name: "List Order",
     icon: "la-file-alt",
     routePath: "/admin/list-order",
