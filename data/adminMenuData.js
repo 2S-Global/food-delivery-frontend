@@ -14,6 +14,13 @@ module.exports = [
     active: "",
   },
   {
+    id: 15,
+    name: "Set Weekly Menu",
+    icon: "la-wallet",
+    routePath: "/admin/set-menus",
+    active: "",
+  },
+  {
     id: 3,
     name: "Additional Items",
     icon: "la-wallet",
