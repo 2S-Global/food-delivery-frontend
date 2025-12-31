@@ -69,6 +69,13 @@ module.exports = [
     routePath: "/admin/survery-list",
     active: "",
   },
+  {
+    id: 10,
+    name: "Site Settings",
+    icon: "la-file-alt",
+    routePath: "/admin/site-settings",
+    active: "",
+  },
 
   // {
   //   id: 6,
