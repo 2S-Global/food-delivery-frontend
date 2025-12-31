@@ -146,14 +146,14 @@ const Companytable = ({ setRefresh, refresh }) => {
 
     try {
       const response = await axios.delete(
-        `${apiurl}/api/userblog/delete-user-blog`,
+        `${apiurl}/api/userblog/delete-cms/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          params: {
-            _id: id,
-          }
+          // params: {
+          //   _id: id,
+          // }
         }
       );
 
@@ -292,20 +292,34 @@ const Companytable = ({ setRefresh, refresh }) => {
         </div>
       )
     },
-    // {
-    //   name: (
-    //     <div style={{ width: "100%", textAlign: "center" }}>
-    //       Description
-    //     </div>
-    //   ),
-    //   selector: (row) => row.description,
-    //   sortable: true,
-    //   cell: (row) => (
-    //     <div style={{ width: "100%", textAlign: "center" }}>
-    //       {row.description}
-    //     </div>
-    //   )
-    // },
+    {
+      name: (
+        <div style={{ width: "100%", textAlign: "center" }}>
+          Summary
+        </div>
+      ),
+      selector: (row) => row.summary,
+      sortable: true,
+      cell: (row) => (
+        <div style={{ width: "100%", textAlign: "center" }}>
+          {row.summary}
+        </div>
+      )
+    },
+    {
+      name: (
+        <div style={{ width: "100%", textAlign: "center" }}>
+          Slug
+        </div>
+      ),
+      selector: (row) => row.slug,
+      sortable: true,
+      cell: (row) => (
+        <div style={{ width: "100%", textAlign: "center" }}>
+          {row.slug}
+        </div>
+      )
+    },
     {
       name: (
         <div style={{ width: "100%", textAlign: "center" }}>

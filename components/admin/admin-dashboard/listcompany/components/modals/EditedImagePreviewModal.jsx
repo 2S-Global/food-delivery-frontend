@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
 
-const EditedImagePreviewModal = ({ show, onClose, images = [], allMenuDetails }) => {
+const EditedImagePreviewModal = ({ show, onClose, images, allMenuDetails }) => {
   if (!show) return null;
 
   console.log("Here is my all data :", allMenuDetails);
+  images = Array.isArray(images) ? images : images ? [images] : [];
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -252,6 +253,30 @@ const EditedImagePreviewModal = ({ show, onClose, images = [], allMenuDetails })
 
                     {/* Main description */}
                     <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
+                      Slug
+                    </h6>
+                    <div
+                      className="mb-3"
+                      style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}
+                      dangerouslySetInnerHTML={{
+                        __html: allMenuDetails.slug || "",
+                      }}
+                    />
+
+                    {/* Main description */}
+                    <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
+                      Summary
+                    </h6>
+                    <div
+                      className="mb-3"
+                      style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}
+                      dangerouslySetInnerHTML={{
+                        __html: allMenuDetails.summary || "",
+                      }}
+                    />
+
+                    {/* Main description */}
+                    <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
                       Description
                     </h6>
                     <div
@@ -267,57 +292,57 @@ const EditedImagePreviewModal = ({ show, onClose, images = [], allMenuDetails })
                       allMenuDetails.item2 ||
                       allMenuDetails.item3 ||
                       allMenuDetails.item4) && (
-                      <div className="mt-3">
-                        <h6 className="fw-bold mb-2" style={{ fontSize: "14px" }}>
-                          Items & Details
-                        </h6>
-                        <ul
-                          className="mb-0"
-                          style={{ fontSize: "13px", paddingLeft: "18px" }}
-                        >
-                          {allMenuDetails.item1 && (
-                            <li>
-                              <strong>{allMenuDetails.item1}:</strong>{" "}
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: allMenuDetails.description1 || "",
-                                }}
-                              />
-                            </li>
-                          )}
-                          {allMenuDetails.item2 && (
-                            <li>
-                              <strong>{allMenuDetails.item2}:</strong>{" "}
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: allMenuDetails.description2 || "",
-                                }}
-                              />
-                            </li>
-                          )}
-                          {allMenuDetails.item3 && (
-                            <li>
-                              <strong>{allMenuDetails.item3}:</strong>{" "}
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: allMenuDetails.description3 || "",
-                                }}
-                              />
-                            </li>
-                          )}
-                          {allMenuDetails.item4 && (
-                            <li>
-                              <strong>{allMenuDetails.item4}:</strong>{" "}
-                              <span
-                                dangerouslySetInnerHTML={{
-                                  __html: allMenuDetails.description4 || "",
-                                }}
-                              />
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                    )}
+                        <div className="mt-3">
+                          <h6 className="fw-bold mb-2" style={{ fontSize: "14px" }}>
+                            Items & Details
+                          </h6>
+                          <ul
+                            className="mb-0"
+                            style={{ fontSize: "13px", paddingLeft: "18px" }}
+                          >
+                            {allMenuDetails.item1 && (
+                              <li>
+                                <strong>{allMenuDetails.item1}:</strong>{" "}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: allMenuDetails.description1 || "",
+                                  }}
+                                />
+                              </li>
+                            )}
+                            {allMenuDetails.item2 && (
+                              <li>
+                                <strong>{allMenuDetails.item2}:</strong>{" "}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: allMenuDetails.description2 || "",
+                                  }}
+                                />
+                              </li>
+                            )}
+                            {allMenuDetails.item3 && (
+                              <li>
+                                <strong>{allMenuDetails.item3}:</strong>{" "}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: allMenuDetails.description3 || "",
+                                  }}
+                                />
+                              </li>
+                            )}
+                            {allMenuDetails.item4 && (
+                              <li>
+                                <strong>{allMenuDetails.item4}:</strong>{" "}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: allMenuDetails.description4 || "",
+                                  }}
+                                />
+                              </li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
                   </>
                 )}
               </div>

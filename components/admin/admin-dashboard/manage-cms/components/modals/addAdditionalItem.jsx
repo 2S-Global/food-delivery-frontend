@@ -256,9 +256,12 @@ const AddAdditionalItemModal = ({ show, onClose, field = {} }) => {
 
       // send OLD URLs
 
-      // formData.oldImages.forEach((url) => {
-      //   formDataToSend.append("oldImages[]", url);
-      // });
+      /*
+      formData.oldImages.forEach((url) => {
+        formDataToSend.append("oldImages[]", url);
+      });  */
+
+      formDataToSend.append("oldImage", formData.oldImages || "");  // Send single old image
 
       // formDataToSend.append("oldImages", JSON.stringify(formData.oldImages));
 
