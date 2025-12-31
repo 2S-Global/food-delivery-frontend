@@ -35,7 +35,7 @@ module.exports = [
     active: "",
   },
   {
-    id: 8,
+    id: 9,
     name: "Manage CMS",
     icon: "la-file-alt",
     routePath: "/admin/manage-cms",
@@ -93,4 +93,5 @@ module.exports = [
     active: "",
   }, */
 ];
+
 
