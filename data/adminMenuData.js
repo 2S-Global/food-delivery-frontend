@@ -35,6 +35,13 @@ module.exports = [
     active: "",
   },
   {
+    id: 8,
+    name: "Manage CMS",
+    icon: "la-file-alt",
+    routePath: "/admin/manage-cms",
+    active: "",
+  },
+  {
     id: 5,
     name: "Manage Delivery Boy",
     icon: "la-id-badge",
@@ -86,3 +93,4 @@ module.exports = [
     active: "",
   }, */
 ];
+
