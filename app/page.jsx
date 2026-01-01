@@ -10,7 +10,6 @@ export const metadata = {
 export default function page() {
   return (
     <Wrapper>
-      {/*   <Home /> Chandra*/}
       <LogIn />
     </Wrapper>
   );

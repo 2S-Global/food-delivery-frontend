@@ -33,7 +33,7 @@ const EditedImagePreviewModal = ({ show, onClose, images, allMenuDetails }) => {
       role="dialog"
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
-      <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div className="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div className="modal-content" style={{ overflow: "hidden" }}>
           {/* HEADER – just close button */}
           <div className="modal-header border-0 p-2">
@@ -252,28 +252,36 @@ const EditedImagePreviewModal = ({ show, onClose, images, allMenuDetails }) => {
                     </div>
 
                     {/* Main description */}
-                    <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
-                      Slug
-                    </h6>
-                    <div
-                      className="mb-3"
-                      style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}
-                      dangerouslySetInnerHTML={{
-                        __html: allMenuDetails.slug || "",
-                      }}
-                    />
+                    {allMenuDetails?.slug && (
+                      <>
+                        <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
+                          Slug
+                        </h6>
+                        <div
+                          className="mb-3"
+                          style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}
+                          dangerouslySetInnerHTML={{
+                            __html: allMenuDetails.slug || "",
+                          }}
+                        />
+                      </>
+                    )}
 
                     {/* Main description */}
-                    <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
-                      Summary
-                    </h6>
-                    <div
-                      className="mb-3"
-                      style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}
-                      dangerouslySetInnerHTML={{
-                        __html: allMenuDetails.summary || "",
-                      }}
-                    />
+                    {allMenuDetails?.summary && (
+                      <>
+                        <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
+                          Summary
+                        </h6>
+                        <div
+                          className="mb-3"
+                          style={{ fontSize: "13px", color: "#555", lineHeight: 1.6 }}
+                          dangerouslySetInnerHTML={{
+                            __html: allMenuDetails.summary || "",
+                          }}
+                        />
+                      </>
+                    )}
 
                     {/* Main description */}
                     <h6 className="fw-bold mb-1" style={{ fontSize: "14px" }}>
