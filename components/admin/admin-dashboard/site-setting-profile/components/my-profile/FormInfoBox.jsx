@@ -123,26 +123,18 @@ const FormInfoBox = ({ setActiveTab }) => {
 
     try {
 
-      // const payload = new FormData();
-      // Object.keys(formdata).forEach((key) => payload.append(key, formdata[key]));
-
-      const payload = {
-        email: formdata.email,
-        phone_number: formdata.phone,                      // backend key
-        address: formdata.address,
-        short_description: formdata.short_description,
-        // social_links: {
-        //   facebook: formdata.facebook_link,
-        //   twitter: formdata.twitter_link,
-        // },
-        facebook_link: formdata.facebook_link,
-        twitter_link: formdata.twitter_link,
-        logo: formdata.logo, // If file is uploaded handle separately
-      };
+      const form = new FormData();
+      form.append("email", formdata.email);
+      form.append("phone_number", formdata.phone);
+      form.append("address", formdata.address);
+      form.append("short_description", formdata.short_description);
+      form.append("facebook_link", formdata.facebook_link);
+      form.append("twitter_link", formdata.twitter_link);
+      form.append("logo", formdata.logo);   // NEW FILE
 
       const response = await axios.put(
         `${apiurl}/api/userdata/edit-contact-details/${formdata._id}`,
-        payload,
+        form,
         {
           headers: {
             "Content-Type": "multipart/form-data",
