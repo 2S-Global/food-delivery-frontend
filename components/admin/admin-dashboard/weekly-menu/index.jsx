@@ -61,34 +61,45 @@ const Index = () => {
 
   /* ================= FETCH WEEK DATA ================= */
   const fetchWeekData = async (dates) => {
-    setLoadingWeek(true);
-    const weekData = [];
+  setLoadingWeek(true);
+  const weekData = [];
 
-    for (let i = 0; i < dates.length; i++) {
-      const dateStr = dates[i].toISOString().split("T")[0];
+  for (let i = 0; i < dates.length; i++) {
+    const dateStr = dates[i].toLocaleDateString("en-CA");
 
-      try {
-        const res = await axios.get(
-          `${apiurl}/api/weeklymenu/weekly-menu?date=${dateStr}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+    try {
+      const res = await axios.get(
+        `${apiurl}/api/weeklymenu/weekly-menu?date=${dateStr}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-        if (res.data?.success && res.data.data) {
-          weekData.push({
-            ...res.data.data,
-            date: dates[i],
-          });
-        } else {
-          weekData.push(createEmptyDay(dates[i], i));
-        }
-      } catch {
+      if (res.data?.success && res.data.data) {
+        const d = res.data.data;
+
+        weekData.push({
+          day: DAYS[i],
+          date: dates[i],
+
+          // ✅ convert OBJECT → ID (required for <select>)
+          vegLunch: d.vegLunch?._id || "",
+          vegDinner:
+            DAYS[i] === "Sunday" ? null : d.vegDinner?._id || "",
+          nonVegLunch: d.nonVegLunch?._id || "",
+          nonVegDinner:
+            DAYS[i] === "Sunday" ? null : d.nonVegDinner?._id || "",
+        });
+      } else {
         weekData.push(createEmptyDay(dates[i], i));
       }
+    } catch {
+      weekData.push(createEmptyDay(dates[i], i));
     }
+  }
 
-    setMenus(weekData);
-    setLoadingWeek(false);
-  };
+  setMenus(weekData);
+  setLoadingWeek(false);
+};
+
 
   const createEmptyDay = (date, index) => ({
     day: DAYS[index],
@@ -114,33 +125,35 @@ const Index = () => {
   };
 
   /* ================= SAVE WEEK ================= */
-  const handleSave = async () => {
-    try {
-      setSaving(true);
+const handleSave = async () => {
+  try {
+    setSaving(true);
 
-      for (const menu of menus) {
-        await axios.post(
-          `${apiurl}/api/weeklymenu/weekly-menu`,
-          {
-            date: menu.date,
-            day: menu.day,
-            vegLunch: menu.vegLunch,
-            vegDinner: menu.vegDinner,
-            nonVegLunch: menu.nonVegLunch,
-            nonVegDinner: menu.nonVegDinner,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      }
-
-      alert("Weekly menu saved successfully ✅");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to save weekly menu ❌");
-    } finally {
-      setSaving(false);
+    for (const menu of menus) {
+      await axios.post(
+        `${apiurl}/api/weeklymenu/weekly-menu`,
+        {
+          // ✅ FIX: send LOCAL date string, not Date object
+          date: menu.date.toLocaleDateString("en-CA"),
+          day: menu.day,
+          vegLunch: menu.vegLunch,
+          vegDinner: menu.vegDinner,
+          nonVegLunch: menu.nonVegLunch,
+          nonVegDinner: menu.nonVegDinner,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
     }
-  };
+
+    alert("Weekly menu saved successfully ✅");
+  } catch (error) {
+    console.error(error);
+    alert("Failed to save weekly menu ❌");
+  } finally {
+    setSaving(false);
+  }
+};
+
 
   return (
     <div className="page-wrapper dashboard">
@@ -148,12 +161,15 @@ const Index = () => {
       <MobileMenu />
       <DashboardEmployerSidebar />
 
-      <section className="user-dashboard">
+      <section
+        className="user-dashboard"
+        style={{ minHeight: "calc(100vh - 150px)" }}
+      >
         <div className="dashboard-outer">
           <BreadCrumb title="Weekly Menu Settings" />
 
           {/* CALENDAR */}
-          <div className="mb-4">
+          <div className="mb-4" style={{ marginTop: "25px" }}>
             <label>Select Monday</label>
             <DatePicker
               selected={startDate}
@@ -165,7 +181,7 @@ const Index = () => {
             />
           </div>
 
-          {/* LOADER WHEN FETCHING WEEK */}
+          {/* LOADER */}
           {loadingWeek && (
             <div className="text-center my-4">
               <div className="spinner-border text-primary" role="status" />
@@ -190,7 +206,6 @@ const Index = () => {
 
                 <div className="widget-content">
                   <div className="row">
-                    {/* VEG LUNCH */}
                     <div className="col-md-3">
                       <label>Veg Lunch</label>
                       <select
@@ -209,7 +224,6 @@ const Index = () => {
                       </select>
                     </div>
 
-                    {/* VEG DINNER */}
                     {menu.vegDinner !== null && (
                       <div className="col-md-3">
                         <label>Veg Dinner</label>
@@ -230,7 +244,6 @@ const Index = () => {
                       </div>
                     )}
 
-                    {/* NON VEG LUNCH */}
                     <div className="col-md-3">
                       <label>Non-Veg Lunch</label>
                       <select
@@ -249,7 +262,6 @@ const Index = () => {
                       </select>
                     </div>
 
-                    {/* NON VEG DINNER */}
                     {menu.nonVegDinner !== null && (
                       <div className="col-md-3">
                         <label>Non-Veg Dinner</label>
