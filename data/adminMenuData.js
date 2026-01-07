@@ -76,6 +76,20 @@ module.exports = [
     routePath: "/admin/site-settings",
     active: "",
   },
+   {
+    id: 11,
+    name: "Item Wise Statistics",
+    icon: "la-chart-bar",
+    routePath: "/admin/item-wise-statistics",
+    active: "",
+  },
+  {
+    id: 12,
+    name: "Location Wise Statistics",
+    icon: "la-chart-bar",
+    routePath: "/admin/location-wise-statistics",
+    active: "",
+  }
 
   // {
   //   id: 6,
@@ -100,5 +114,6 @@ module.exports = [
     active: "",
   }, */
 ];
+
 
 
