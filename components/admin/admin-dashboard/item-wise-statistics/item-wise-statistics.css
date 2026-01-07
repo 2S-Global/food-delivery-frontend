@@ -144,6 +144,12 @@ img {
   margin-bottom: 30px;
 }
 
+.table-card h3 {
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
 .menu-title {
   font-size: 16px;
   font-weight: 700;
@@ -189,3 +195,4 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
