@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import MobileMenu from "../../../header/AdminMobileMenu";
 import DashboardHeader from "../../../header/DashboardAdminheader";
@@ -10,9 +10,12 @@ import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
 
 import "./item-wise-statistics.css";
+import { set } from "date-fns";
 
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState("");
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const formattedDate = selectedDate
     ? new Date(selectedDate).toLocaleDateString("en-GB", {
@@ -21,6 +24,89 @@ const Index = () => {
         year: "numeric",
       })
     : "";
+
+  /* ---------------- API CALL ---------------- */
+  useEffect(() => {
+    if (!selectedDate) return;
+
+    const fetchSummary = async () => {
+      setLoading(true);
+      setData(null);
+
+      try {
+        const token = localStorage.getItem("Super_token");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/order/daily-order-summary?date=${selectedDate}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const text = await res.text();
+
+        if (!res.ok) {
+          console.error("Backend error:", text);
+          throw new Error(`API failed with ${res.status}`);
+        }
+
+        const json = JSON.parse(text);
+        setData(json);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSummary();
+  }, [selectedDate]);
+
+  const vegLunch = data?.menus?.veg?.lunch;
+  const vegDinner = data?.menus?.veg?.dinner;
+
+  const nonVegLunch = data?.menus?.nonVeg?.lunch;
+  const nonVegDinner = data?.menus?.nonVeg?.dinner;
+
+  const additionalItems = data?.additionalItemsBreakdown
+    ? Object.values(data.additionalItemsBreakdown)
+    : [];
+
+  const MenuBlock = ({ title, menu, typeClass }) => {
+    if (!menu) return null;
+
+    return (
+      <table className="menu-details-table">
+        <thead>
+          <tr>
+            <th colSpan="2" className={typeClass}>
+              {title}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="90">
+              <img
+                src={menu?.images?.[0] || "no-image160x160.png"}
+                className="menu-cover"
+              />
+            </td>
+            <td>
+              <ul className="menu-list">
+                {menu?.item1 && <li>{menu.item1}</li>}
+                {menu?.item2 && <li>{menu.item2}</li>}
+                {menu?.item3 && <li>{menu.item3}</li>}
+                {menu?.item4 && <li>{menu.item4}</li>}
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  };
 
   return (
     <div className="page-wrapper dashboard">
@@ -49,132 +135,94 @@ const Index = () => {
             />
           </div>
 
+          {loading && (
+            <div className="loader-wrapper">
+              <div className="spinner" />
+              <p className="mt-2">Loading menu & statistics...</p>
+            </div>
+          )}
+
           {/* MENU DETAILS */}
-          <div className="menu-table-card">
-            <div className="menu-title">
-              {selectedDate
-                ? `Menu Details For : ${formattedDate}`
-                : "Menu Details"}
-            </div>
+          {!loading &&data && (
+            <div className="menu-table-card">
+              <div className="menu-title">
+                Menu Details For : {formattedDate}
+              </div>
 
-            <div className="menu-details-wrapper">
-              {/* VEG MENU */}
-              <table className="menu-details-table">
-                <thead>
-                  <tr>
-                    <th colSpan="2" className="veg">
-                      Veg Menu
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td width="90">
-                      <img
-                        src="no-image160x160.png"
-                        className="menu-cover"
-                      />
-                    </td>
-                    <td>
-                      <ul className="menu-list">
-                        <li>Paneer Butter Masala</li>
-                        <li>Dal Tadka</li>
-                        <li>Veg Biryani</li>
-                        <li>Mix Veg</li>
-                      </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="menu-details-wrapper">
+                {/* VEG Lunch */}
+                <MenuBlock title="Veg Lunch" menu={vegLunch} typeClass="veg" />
 
-              {/* NON-VEG MENU */}
-              <table className="menu-details-table">
-                <thead>
-                  <tr>
-                    <th colSpan="2" className="nonveg">
-                      Non-Veg Menu
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td width="90">
-                      <img
-                        src="https://via.placeholder.com/80/dc2626/ffffff?text=NON+VEG"
-                        className="menu-cover"
-                      />
-                    </td>
-                    <td>
-                      <ul className="menu-list">
-                        <li>Chicken Curry</li>
-                        <li>Chicken Biryani</li>
-                        <li>Egg Masala</li>
-                      </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                {/* NON-VEG Lunch */}
+                <MenuBlock
+                  title="Non-Veg Lunch"
+                  menu={nonVegLunch}
+                  typeClass="nonveg"
+                />
+
+                {/* VEG Dinner */}
+                <MenuBlock
+                  title="Veg Dinner"
+                  menu={vegDinner}
+                  typeClass="veg"
+                />
+
+                {/* NON-VEG Dinner */}
+                <MenuBlock
+                  title="Non-Veg Dinner"
+                  menu={nonVegDinner}
+                  typeClass="nonveg"
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* STATS */}
-          <div className="stats">
-            <div className="stat-card veg">
-              <div className="stat-title">Total Veg Items</div>
-              <div className="stat-value">10</div>
-            </div>
+          {!loading &&data && (
+            <div className="stats">
+              <div className="stat-card veg">
+                <div className="stat-title">Total Veg Subscriptions</div>
+                <div className="stat-value">{data.vegSubscriptions}</div>
+              </div>
 
-            <div className="stat-card nonveg">
-              <div className="stat-title">Total Non-Veg Items</div>
-              <div className="stat-value">7</div>
+              <div className="stat-card nonveg">
+                <div className="stat-title">Total Non-Veg Subscriptions</div>
+                <div className="stat-value">{data.nonVegSubscriptions}</div>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* ADDITIONAL ITEMS */}
-          <div className="table-card">
-            <h3>Additional Items</h3>
+          {!loading &&additionalItems.length > 0 && (
+            <div className="table-card">
+              <h3>Additional Items</h3>
 
-            <table>
-              <thead>
-                <tr>
-                  <th>Item Image</th>
-                  <th>Item Name</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img src="https://via.placeholder.com/50" />
-                  </td>
-                  <td>Cold Drink</td>
-                  <td>
-                    <span className="quantity-badge">1</span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <img src="https://via.placeholder.com/50" />
-                  </td>
-                  <td>Extra Roti</td>
-                  <td>
-                    <span className="quantity-badge">2</span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <img src="https://via.placeholder.com/50" />
-                  </td>
-                  <td>Sweet Dish</td>
-                  <td>
-                    <span className="quantity-badge">1</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item Image</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {additionalItems.map((item) => (
+                    <tr key={item.itemId}>
+                      <td>
+                        <img src={item.image} width="50" />
+                      </td>
+                      <td>{item.name}</td>
+                      <td>
+                        <span className="quantity-badge">
+                          {item.totalQuantity}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </section>
 
